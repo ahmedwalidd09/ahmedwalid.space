@@ -408,6 +408,40 @@
       cursor: default;
     }
     .project-link.wip:hover { gap: 8px; }
+    /* Repo Button with 45-degree Coming Soon Label */
+    .repo-btn-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      margin-top: 6px;
+    }
+    .badge-45-coming-soon {
+      position: absolute;
+      top: -12px;
+      right: -18px;
+      transform: rotate(45deg);
+      background: #ffffff;
+      color: #030305;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 3px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.2);
+      pointer-events: none;
+      z-index: 10;
+      white-space: nowrap;
+    }
+    .project-link.private-repo {
+      opacity: 0.75;
+      cursor: pointer;
+      position: relative;
+    }
+    .project-link.private-repo:hover {
+      opacity: 1;
+    }
 
     /* Terminal HUD */
     .terminal-wrap {
@@ -675,10 +709,13 @@
               <span class="tech-pill">Automation</span>
             </div>
           </div>
-          <a href="https://github.com/ahmedwalidd09/Praecursor-EGX" target="_blank" rel="noopener" class="project-link">
-            <span>Inspect on GitHub</span>
-            <span>&rarr;</span>
-          </a>
+          <div class="repo-btn-wrap">
+            <span class="badge-45-coming-soon">COMING SOON</span>
+            <a href="javascript:void(0)" onclick="showPrivateNotice(event)" class="project-link private-repo" title="Repository is currently private">
+              <span>Inspect Repository</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
         </div>
 
         <div class="project-card">
@@ -843,10 +880,20 @@
 
     function copyEmail() {
       navigator.clipboard.writeText('ahmedwalidd09@gmail.com').then(() => {
-        const toast = document.getElementById('toast');
-        toast.style.display = 'block';
-        setTimeout(() => { toast.style.display = 'none'; }, 2500);
+        showToast('Email copied to clipboard!');
       });
+    }
+
+    function showPrivateNotice(e) {
+      if (e) e.preventDefault();
+      showToast('Praecursor-EGX is private in active development. Coming soon!');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 2800);
     }
 
     const canvas = document.getElementById('ambient-canvas');

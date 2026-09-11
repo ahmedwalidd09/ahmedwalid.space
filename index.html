@@ -469,39 +469,68 @@
       cursor: default;
     }
     .project-link.wip:hover { gap: 8px; }
-    /* Repo Button with 45-degree Coming Soon Label */
+    /* Refined Repo Button & Modern Coming Soon Badge */
     .repo-btn-wrap {
       position: relative;
       display: inline-flex;
       align-items: center;
-      margin-top: 6px;
+      margin-top: 10px;
     }
-    .badge-45-coming-soon {
+    .coming-soon-chip {
       position: absolute;
-      top: -12px;
-      right: -18px;
-      transform: rotate(45deg);
+      top: -11px;
+      right: -8px;
+      transform: rotate(-6deg);
       background: #ffffff;
       color: #030305;
       font-family: var(--font-mono);
       font-size: 0.62rem;
       font-weight: 800;
-      padding: 3px 8px;
-      border-radius: 3px;
       letter-spacing: 0.08em;
-      text-transform: uppercase;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.2);
+      padding: 3px 9px;
+      border-radius: 100px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.25);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
       pointer-events: none;
       z-index: 10;
       white-space: nowrap;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .project-link.private-repo {
-      opacity: 0.75;
+    .repo-btn-wrap:hover .coming-soon-chip {
+      transform: rotate(-3deg) scale(1.04);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.95);
+    }
+    .coming-soon-chip::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #030305;
+    }
+    .repo-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
       cursor: pointer;
-      position: relative;
+      transition: all 0.2s ease;
     }
-    .project-link.private-repo:hover {
-      opacity: 1;
+    .repo-action-btn:hover {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
     }
 
     /* Terminal HUD */
@@ -814,8 +843,8 @@
             </div>
           </div>
           <div class="repo-btn-wrap">
-            <span class="badge-45-coming-soon">COMING SOON</span>
-            <a href="javascript:void(0)" onclick="showPrivateNotice(event)" class="project-link private-repo" title="Repository is currently private">
+            <span class="coming-soon-chip">COMING SOON</span>
+            <a href="javascript:void(0)" onclick="showPrivateNotice(event)" class="repo-action-btn" title="Repository is currently private">
               <span>Inspect Repository</span>
               <span>&rarr;</span>
             </a>

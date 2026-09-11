@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahmed Walid // Future Engineer</title>
+  <meta name="description" content="Ahmed Walid — Future Engineer, Systems Builder, and Quantitative Technologist.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090e;
+      --surface: #0d121c;
+      --surface-hover: #131b28;
+      --card-bg: rgba(13, 18, 28, 0.75);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(0, 242, 254, 0.35);
+      --cyan: #00f2fe;
+      --emerald: #00ff87;
+      --purple: #b388ff;
+      --gold: #ffd700;
+      --text: #f0f4fc;
+      --text-muted: #8896ab;
+      --text-dim: #475569;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+      line-height: 1.6;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    #ambient-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-sphere {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(140px);
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-cyan { top: -100px; left: -100px; background: var(--cyan); }
+    .glow-purple { bottom: 10%; right: -150px; background: var(--purple); }
+
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(16px);
+      background: rgba(7, 9, 14, 0.85);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      padding: 16px 0;
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .brand-logo {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.05em;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand-tag {
+      font-size: 0.72rem;
+      font-family: var(--font-mono);
+      background: rgba(0, 242, 254, 0.1);
+      color: var(--cyan);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 10px var(--emerald);
+      animation: pulse 2s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-btn {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      border-color: var(--cyan);
+      background: rgba(0, 242, 254, 0.1);
+      color: var(--cyan);
+    }
+
+    .hero {
+      padding: 110px 0 70px;
+      position: relative;
+    }
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 14px;
+      background: rgba(0, 255, 135, 0.08);
+      border: 1px solid rgba(0, 255, 135, 0.25);
+      border-radius: 100px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--emerald);
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, #ffffff 30%, var(--cyan) 80%, var(--emerald) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      color: var(--cyan);
+      margin-bottom: 20px;
+    }
+    .hero-desc {
+      max-width: 660px;
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 38px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 50px;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--cyan), #00b4d8);
+      color: #07090e;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.25s;
+      box-shadow: 0 4px 20px rgba(0, 242, 254, 0.25);
+      border: none;
+      cursor: pointer;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(0, 242, 254, 0.4);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 14px 28px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      transition: all 0.25s;
+    }
+    .btn-secondary:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-hover);
+      color: var(--cyan);
+      transform: translateY(-2px);
+    }
+
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      padding-top: 30px;
+      border-top: 1px solid var(--border);
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 22px;
+    }
+    .stat-num {
+      font-family: var(--font-mono);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-family: var(--font-mono);
+    }
+
+    section { padding: 80px 0; }
+    .section-header { margin-bottom: 48px; }
+    .section-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-kicker::before {
+      content: '';
+      width: 14px;
+      height: 2px;
+      background: var(--cyan);
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .pillar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .pillar-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .pillar-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+    }
+    .pillar-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .pillar-card:hover::before { opacity: 1; }
+    .pillar-icon {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+    .pillar-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .pillar-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 28px;
+    }
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s;
+    }
+    .project-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+    }
+    .project-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      background: rgba(0, 242, 254, 0.08);
+      color: var(--cyan);
+      border: 1px solid rgba(0, 242, 254, 0.2);
+      padding: 3px 10px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .project-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .project-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .tech-pill {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-dim);
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--cyan);
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: gap 0.2s;
+    }
+    .project-link:hover { gap: 12px; }
+
+    .terminal-wrap {
+      background: #090c14;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+      margin-top: 24px;
+    }
+    .term-header {
+      background: #0e131f;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .term-btn { width: 11px; height: 11px; border-radius: 50%; }
+    .term-red { background: #ff5f56; }
+    .term-yellow { background: #ffbd2e; }
+    .term-green { background: #27c93f; }
+    .term-title {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-left: 10px;
+    }
+    .term-body {
+      padding: 24px;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      color: var(--text);
+      min-height: 220px;
+      line-height: 1.7;
+    }
+    .term-line { margin-bottom: 8px; }
+    .prompt { color: var(--cyan); }
+    .term-output { color: var(--text-muted); }
+    .term-highlight { color: var(--emerald); }
+
+    .skills-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .skill-cat {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 26px;
+    }
+    .skill-cat-title {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--cyan);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .skill-pill {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 6px;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+    .skill-pill:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .contact-card {
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.04), rgba(179, 136, 255, 0.04));
+      border: 1px solid var(--border-hover);
+      border-radius: 18px;
+      padding: 48px;
+      text-align: center;
+      position: relative;
+    }
+    .contact-card h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .contact-card p {
+      max-width: 540px;
+      margin: 0 auto 32px;
+      color: var(--text-muted);
+    }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(13, 18, 28, 0.95);
+      border: 1px solid var(--emerald);
+      color: var(--emerald);
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      display: none;
+      z-index: 1000;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 60px 0 40px; }
+      .stats-strip { grid-template-columns: 1fr 1fr; }
+      .contact-card { padding: 32px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="ambient-canvas"></canvas>
+  <div class="glow-sphere glow-cyan"></div>
+  <div class="glow-sphere glow-purple"></div>
+
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="brand">
+        <div class="pulse-dot"></div>
+        <span class="brand-logo">AHMED WALID</span>
+        <span class="brand-tag">// FUTURE ENGINEER</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">Vision</a></li>
+        <li><a href="#projects">Innovations</a></li>
+        <li><a href="#terminal">Terminal</a></li>
+        <li><a href="#skills">Toolkit</a></li>
+        <li><a href="#contact">Connect</a></li>
+      </ul>
+      <a href="#contact" class="nav-btn">Get In Touch &rarr;</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <div class="status-chip">
+        <div class="pulse-dot"></div>
+        <span>OPEN FOR HIGH-IMPACT COLLABORATION</span>
+      </div>
+
+      <h1>
+        Building the future at the intersection of <br>
+        <span class="gradient-text">Engineering, Intelligence &amp; Systems.</span>
+      </h1>
+
+      <div class="hero-sub">AHMED WALID // FUTURE ENGINEER</div>
+
+      <p class="hero-desc">
+        Driven by first-principles problem solving. Developing autonomous robotics, quantitative algorithms, 
+        and high-reliability software architectures engineered to scale.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">
+          <span>Explore Projects</span>
+          <span>&rarr;</span>
+        </a>
+        <a href="https://github.com/ahmedwalidd09" target="_blank" rel="noopener" class="btn-secondary">
+          <span>GitHub: ahmedwalidd09</span>
+        </a>
+      </div>
+
+      <div class="stats-strip">
+        <div class="stat-card">
+          <div class="stat-num">ENGINEERING</div>
+          <div class="stat-label">Discipline &amp; Mindset</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">SYSTEMS</div>
+          <div class="stat-label">Software + Hardware</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">QUANT / AI</div>
+          <div class="stat-label">Empirical Intelligence</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">CAIRO, EG</div>
+          <div class="stat-label">Base Location</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-kicker">Core Principles</div>
+        <h2 class="section-title">How I Think &amp; Build</h2>
+      </div>
+
+      <div class="pillar-grid">
+        <div class="pillar-card">
+          <span class="pillar-icon">🔬</span>
+          <h3 class="pillar-title">First-Principles Engineering</h3>
+          <p class="pillar-desc">
+            I break down complex physics, mathematical models, and computational challenges 
+            to their foundational truths and construct optimal, high-leverage solutions from the ground up.
+          </p>
+        </div>
+
+        <div class="pillar-card">
+          <span class="pillar-icon">⚡</span>
+          <h3 class="pillar-title">Hardware &amp; Software Convergence</h3>
+          <p class="pillar-desc">
+            The physical world demands mechanical precision and real-time execution. I bridge high-level 
+            algorithmic intelligence with embedded systems, low-latency firmware, and robust control loops.
+          </p>
+        </div>
+
+        <div class="pillar-card">
+          <span class="pillar-icon">📈</span>
+          <h3 class="pillar-title">Mathematical Edge &amp; Rigor</h3>
+          <p class="pillar-desc">
+            From quantitative financial engineering to machine learning foundation models, every system is 
+            empirically tested, validated against out-of-sample data, and optimized for maximum resilience.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-kicker">Selected Work</div>
+        <h2 class="section-title">Featured Projects &amp; Innovations</h2>
+      </div>
+
+      <div class="projects-grid">
+        <div class="project-card">
+          <div>
+            <span class="project-tag">QUANTITATIVE SYSTEMS &bull; ACTIVE</span>
+            <h3 class="project-title">Praecursor-EGX Terminal</h3>
+            <p class="project-desc">
+              An institutional-grade algorithmic quantitative intelligence system for the Egyptian Stock Exchange. 
+              Features the Kronos Candlestick Foundation Model (4.1M params), dual XGBoost/LightGBM ensembles, 
+              50+ technical alpha factors, real-time tick consensus validation, and automated Telegram telemetry.
+            </p>
+            <div class="project-tech">
+              <span class="tech-pill">Python</span>
+              <span class="tech-pill">PyTorch</span>
+              <span class="tech-pill">XGBoost</span>
+              <span class="tech-pill">FastAPI</span>
+              <span class="tech-pill">SQLite</span>
+            </div>
+          </div>
+          <a href="https://github.com/ahmedwalidd09/Praecursor-EGX" target="_blank" rel="noopener" class="project-link">
+            <span>Inspect Repository</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+
+        <div class="project-card">
+          <div>
+            <span class="project-tag">HARDWARE &bull; EMBEDDED</span>
+            <h3 class="project-title">Autonomous Systems &amp; Robotics</h3>
+            <p class="project-desc">
+              Explorations in autonomous navigation, PID control loops, sensor fusion (IMU, LiDAR, Computer Vision), 
+              and microcontroller firmware designed for deterministic, real-time actuation under physical constraints.
+            </p>
+            <div class="project-tech">
+              <span class="tech-pill">C++</span>
+              <span class="tech-pill">Embedded Systems</span>
+              <span class="tech-pill">Control Theory</span>
+              <span class="tech-pill">Robotics</span>
+            </div>
+          </div>
+          <a href="https://github.com/ahmedwalidd09" target="_blank" rel="noopener" class="project-link">
+            <span>View Architecture</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+
+        <div class="project-card">
+          <div>
+            <span class="project-tag">DEEP LEARNING &bull; RESEARCH</span>
+            <h3 class="project-title">Predictive Foundation Models</h3>
+            <p class="project-desc">
+              Research and implementation of transformer architectures for high-dimensional time-series forecasting, 
+              conformal prediction confidence intervals, and Markov Regime Switching engines for high-stakes decision making.
+            </p>
+            <div class="project-tech">
+              <span class="tech-pill">Transformers</span>
+              <span class="tech-pill">Time Series</span>
+              <span class="tech-pill">Statistical Mechanics</span>
+              <span class="tech-pill">Python</span>
+            </div>
+          </div>
+          <a href="https://github.com/ahmedwalidd09" target="_blank" rel="noopener" class="project-link">
+            <span>Explore Models</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="terminal">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-kicker">Interactive HUD</div>
+        <h2 class="section-title">Terminal Console</h2>
+      </div>
+
+      <div class="terminal-wrap">
+        <div class="term-header">
+          <span class="term-btn term-red"></span>
+          <span class="term-btn term-yellow"></span>
+          <span class="term-btn term-green"></span>
+          <span class="term-title">ahmed@ahmedwalid-space: ~ (interactive shell)</span>
+        </div>
+        <div class="term-body" id="terminal-body">
+          <div class="term-line"><span class="prompt">ahmed@space:~$</span> whoami</div>
+          <div class="term-line term-output">Ahmed Walid &mdash; Future Engineer, Builder, Problem Solver. Based in Cairo.</div>
+          <div class="term-line"><span class="prompt">ahmed@space:~$</span> cat vision.txt</div>
+          <div class="term-line term-highlight">&gt; "The best way to predict the future is to engineer it from first principles."</div>
+          <div class="term-line"><span class="prompt">ahmed@space:~$</span> systemctl status ambitions</div>
+          <div class="term-line term-output">Active: <span class="term-highlight">running (continuous improvement &bull; 100% uptime)</span></div>
+          <div class="term-line"><span class="prompt">ahmed@space:~$</span> <span class="pulse-cursor">&block;</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-kicker">Capabilities</div>
+        <h2 class="section-title">Engineering Toolkit</h2>
+      </div>
+
+      <div class="skills-categories">
+        <div class="skill-cat">
+          <div class="skill-cat-title">Systems &amp; Languages</div>
+          <div class="skill-tags">
+            <span class="skill-pill">Python</span>
+            <span class="skill-pill">C / C++</span>
+            <span class="skill-pill">TypeScript</span>
+            <span class="skill-pill">SQL</span>
+            <span class="skill-pill">Bash / Linux</span>
+            <span class="skill-pill">Git / GitHub</span>
+          </div>
+        </div>
+
+        <div class="skill-cat">
+          <div class="skill-cat-title">AI &amp; Quantitative Engineering</div>
+          <div class="skill-tags">
+            <span class="skill-pill">PyTorch</span>
+            <span class="skill-pill">Transformers</span>
+            <span class="skill-pill">XGBoost / LightGBM</span>
+            <span class="skill-pill">Algorithmic Trading</span>
+            <span class="skill-pill">Risk Management (Half-Kelly)</span>
+            <span class="skill-pill">Statistical Physics</span>
+          </div>
+        </div>
+
+        <div class="skill-cat">
+          <div class="skill-cat-title">Hardware &amp; Architecture</div>
+          <div class="skill-tags">
+            <span class="skill-pill">Microcontrollers</span>
+            <span class="skill-pill">Embedded Systems</span>
+            <span class="skill-pill">Sensor Integration</span>
+            <span class="skill-pill">Real-Time Pipelines</span>
+            <span class="skill-pill">Control Theory</span>
+            <span class="skill-pill">Vercel &bull; Edge Deployment</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <div class="contact-card">
+        <h2>Let&apos;s Build Something Incredible.</h2>
+        <p>
+          Whether you want to collaborate on breakthrough engineering projects, discuss quantitative systems, 
+          or just say hello &mdash; my inbox is always open.
+        </p>
+
+        <div class="contact-links">
+          <button class="btn-primary" onclick="copyEmail()">
+            <span>Copy Email: ahmedwalidd09@gmail.com</span>
+          </button>
+          <a href="https://github.com/ahmedwalidd09" target="_blank" rel="noopener" class="btn-secondary">
+            <span>GitHub Profile &rarr;</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>&copy; 2026 Ahmed Walid. All rights reserved. &bull; <span style="color: var(--cyan);">ahmedwalid.space</span></div>
+      <div id="footer-clock" style="font-family: var(--font-mono); color: var(--emerald);">CAIRO TIME</div>
+    </div>
+  </footer>
+
+  <div id="toast">Email copied to clipboard!</div>
+
+  <script>
+    function updateClock() {
+      try {
+        const d = new Intl.DateTimeFormat('en-GB', {
+          timeZone: 'Africa/Cairo',
+          hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        }).format(new Date());
+        document.getElementById('footer-clock').innerText = d + ' (CAIRO)';
+      } catch (e) {}
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function copyEmail() {
+      navigator.clipboard.writeText('ahmedwalidd09@gmail.com').then(() => {
+        const toast = document.getElementById('toast');
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 2500);
+      });
+    }
+
+    const canvas = document.getElementById('ambient-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height, particles = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
+        this.radius = Math.random() * 1.5 + 0.5;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0) this.x = width;
+        if (this.x > width) this.x = 0;
+        if (this.y < 0) this.y = height;
+        if (this.y > height) this.y = 0;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0, 242, 254, 0.35)';
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < 45; i++) particles.push(new Particle());
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(0, 242, 254, ${0.12 * (1 - dist / 120)})`;
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>

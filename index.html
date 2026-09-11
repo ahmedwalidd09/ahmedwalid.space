@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ahmed Walid // Future Engineer</title>
-  <meta name="description" content="Ahmed Walid — Future Engineer, Systems Builder, and Quantitative Technologist.">
+  <meta name="description" content="Ahmed Walid — Future Engineer. Developing Praecursor-EGX and exploring systems, intelligence, and software.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,9 +13,9 @@
       --bg: #030305;
       --surface: #0a0a0d;
       --surface-hover: #121217;
-      --card-bg: rgba(12, 12, 16, 0.65);
+      --card-bg: rgba(12, 12, 16, 0.7);
       --card-border: rgba(255, 255, 255, 0.08);
-      --card-border-hover: rgba(255, 255, 255, 0.24);
+      --card-border-hover: rgba(255, 255, 255, 0.22);
       --accent: #ffffff;
       --accent-muted: #e4e4e7;
       --accent-silver: #a1a1aa;
@@ -50,14 +50,13 @@
       z-index: 0;
     }
 
-    /* Subtle dark monochrome vignette */
     .vignette {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at 50% 20%, transparent 40%, rgba(3, 3, 5, 0.85) 90%);
+      background: radial-gradient(circle at 50% 15%, transparent 35%, rgba(3, 3, 5, 0.9) 85%);
       pointer-events: none;
       z-index: 0;
     }
@@ -76,7 +75,7 @@
       top: 0;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      background: rgba(3, 3, 5, 0.8);
+      background: rgba(3, 3, 5, 0.85);
       border-bottom: 1px solid var(--card-border);
       z-index: 100;
       padding: 18px 0;
@@ -96,7 +95,7 @@
       font-family: var(--font-mono);
       font-weight: 700;
       font-size: 1.05rem;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       color: #ffffff;
       display: flex;
       align-items: center;
@@ -117,12 +116,12 @@
       height: 7px;
       border-radius: 50%;
       background: #ffffff;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
       animation: pulse 2.5s infinite ease-in-out;
     }
     @keyframes pulse {
       0%, 100% { transform: scale(1); opacity: 0.9; }
-      50% { transform: scale(1.3); opacity: 0.3; }
+      50% { transform: scale(1.3); opacity: 0.35; }
     }
     .nav-links {
       display: flex;
@@ -156,7 +155,7 @@
 
     /* Hero Section */
     .hero {
-      padding: 120px 0 80px;
+      padding: 120px 0 70px;
       position: relative;
     }
     .status-chip {
@@ -174,25 +173,26 @@
       letter-spacing: 0.05em;
     }
     .hero h1 {
-      font-size: clamp(2.8rem, 6.2vw, 4.6rem);
+      font-size: clamp(2.8rem, 6.4vw, 4.8rem);
       font-weight: 800;
       letter-spacing: -0.04em;
       line-height: 1.08;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       color: #ffffff;
     }
     .hero h1 .silver-gradient {
-      background: linear-gradient(180deg, #ffffff 20%, #9999a6 100%);
+      background: linear-gradient(180deg, #ffffff 30%, #9494a3 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
     .hero-sub {
       font-family: var(--font-mono);
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       color: var(--accent-silver);
       letter-spacing: 0.08em;
       margin-bottom: 22px;
       text-transform: uppercase;
+      font-weight: 600;
     }
     .hero-desc {
       max-width: 640px;
@@ -200,13 +200,12 @@
       color: var(--text-muted);
       line-height: 1.75;
       margin-bottom: 42px;
-      font-weight: 400;
     }
     .hero-actions {
       display: flex;
       gap: 16px;
       flex-wrap: wrap;
-      margin-bottom: 60px;
+      margin-bottom: 56px;
     }
     .btn-primary {
       display: inline-flex;
@@ -249,7 +248,7 @@
       transform: translateY(-2px);
     }
 
-    /* Stats Strip */
+    /* Stats / Info Strip */
     .stats-strip {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -266,14 +265,14 @@
     }
     .stat-num {
       font-family: var(--font-mono);
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 700;
       color: #ffffff;
       margin-bottom: 4px;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
     }
     .stat-label {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-dim);
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -307,59 +306,6 @@
       color: #ffffff;
     }
 
-    /* Pillar Cards */
-    .pillar-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 24px;
-    }
-    .pillar-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 34px;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(16px);
-    }
-    .pillar-card:hover {
-      border-color: var(--card-border-hover);
-      transform: translateY(-4px);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
-    }
-    .pillar-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .pillar-card:hover::before { opacity: 1; }
-    .pillar-num {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--text-dim);
-      margin-bottom: 18px;
-      display: block;
-    }
-    .pillar-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #ffffff;
-      margin-bottom: 12px;
-      letter-spacing: -0.01em;
-    }
-    .pillar-desc {
-      color: var(--text-muted);
-      font-size: 0.94rem;
-      line-height: 1.65;
-    }
-
     /* Projects Grid */
     .projects-grid {
       display: grid;
@@ -376,12 +322,27 @@
       justify-content: space-between;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
     }
     .project-card:hover {
       border-color: var(--card-border-hover);
       transform: translateY(-4px);
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
     }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .project-card:hover::before { opacity: 1; }
+
     .project-tag {
       font-family: var(--font-mono);
       font-size: 0.72rem;
@@ -393,6 +354,11 @@
       display: inline-block;
       margin-bottom: 18px;
       letter-spacing: 0.04em;
+    }
+    .project-tag.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.25);
     }
     .project-title {
       font-size: 1.35rem;
@@ -437,6 +403,11 @@
       gap: 12px;
       color: var(--accent-muted);
     }
+    .project-link.wip {
+      color: var(--text-dim);
+      cursor: default;
+    }
+    .project-link.wip:hover { gap: 8px; }
 
     /* Terminal HUD */
     .terminal-wrap {
@@ -471,7 +442,7 @@
       font-family: var(--font-mono);
       font-size: 0.88rem;
       color: var(--text);
-      min-height: 220px;
+      min-height: 200px;
       line-height: 1.75;
     }
     .term-line { margin-bottom: 8px; }
@@ -489,7 +460,7 @@
     }
     @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
 
-    /* Skills Categories */
+    /* Skills / Toolkit */
     .skills-categories {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -583,7 +554,6 @@
       gap: 16px;
     }
 
-    /* Toast Notification */
     #toast {
       position: fixed;
       bottom: 24px;
@@ -621,11 +591,10 @@
         <span class="brand-tag">// FUTURE ENGINEER</span>
       </a>
       <ul class="nav-links">
-        <li><a href="#about">Vision</a></li>
-        <li><a href="#projects">Innovations</a></li>
+        <li><a href="#projects">In The Making</a></li>
         <li><a href="#terminal">Terminal</a></li>
-        <li><a href="#skills">Toolkit</a></li>
-        <li><a href="#contact">Connect</a></li>
+        <li><a href="#toolkit">Toolkit</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
       <a href="#contact" class="nav-btn">Get In Touch &rarr;</a>
     </div>
@@ -635,24 +604,24 @@
     <div class="container">
       <div class="status-chip">
         <div class="pulse-dot"></div>
-        <span>OPEN FOR HIGH-IMPACT COLLABORATION</span>
+        <span>IN THE LAB // BUILDING &amp; LEARNING</span>
       </div>
 
       <h1>
-        Building the future at the intersection of <br>
-        <span class="silver-gradient">Engineering, Intelligence &amp; Systems.</span>
+        Ahmed Walid <br>
+        <span class="silver-gradient">Future Engineer.</span>
       </h1>
 
-      <div class="hero-sub">AHMED WALID // FUTURE ENGINEER</div>
+      <div class="hero-sub">// SYSTEMS, ALGORITHMS &amp; PRACTICAL SOFTWARE</div>
 
       <p class="hero-desc">
-        Driven by first-principles problem solving. Developing autonomous robotics, quantitative algorithms, 
-        and high-reliability software architectures engineered to scale.
+        Driven by first-principles problem solving. Focused on building algorithmic tools, exploring intelligent systems, 
+        and turning ambitious engineering ideas into reality.
       </p>
 
       <div class="hero-actions">
         <a href="#projects" class="btn-primary">
-          <span>Explore Projects</span>
+          <span>What I'm Building</span>
           <span>&rarr;</span>
         </a>
         <a href="https://github.com/ahmedwalidd09" target="_blank" rel="noopener" class="btn-secondary">
@@ -663,15 +632,15 @@
       <div class="stats-strip">
         <div class="stat-card">
           <div class="stat-num">ENGINEERING</div>
-          <div class="stat-label">Discipline &amp; Mindset</div>
+          <div class="stat-label">Discipline &amp; Focus</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num">SYSTEMS</div>
-          <div class="stat-label">Software + Hardware</div>
+          <div class="stat-num">PRAECURSOR-EGX</div>
+          <div class="stat-label">Active Project</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num">QUANT / AI</div>
-          <div class="stat-label">Empirical Intelligence</div>
+          <div class="stat-num">SYSTEMS + AI</div>
+          <div class="stat-label">Areas of Interest</div>
         </div>
         <div class="stat-card">
           <div class="stat-num">CAIRO, EG</div>
@@ -681,115 +650,75 @@
     </div>
   </header>
 
-  <section id="about">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-kicker">Core Principles</div>
-        <h2 class="section-title">How I Think &amp; Build</h2>
-      </div>
-
-      <div class="pillar-grid">
-        <div class="pillar-card">
-          <span class="pillar-num">01 // FOUNDATION</span>
-          <h3 class="pillar-title">First-Principles Engineering</h3>
-          <p class="pillar-desc">
-            I break down complex physics, mathematical models, and computational challenges 
-            to their foundational truths and construct optimal, high-leverage solutions from the ground up.
-          </p>
-        </div>
-
-        <div class="pillar-card">
-          <span class="pillar-num">02 // INTEGRATION</span>
-          <h3 class="pillar-title">Hardware &amp; Software Convergence</h3>
-          <p class="pillar-desc">
-            The physical world demands mechanical precision and real-time execution. I bridge high-level 
-            algorithmic intelligence with embedded systems, low-latency firmware, and robust control loops.
-          </p>
-        </div>
-
-        <div class="pillar-card">
-          <span class="pillar-num">03 // VALIDATION</span>
-          <h3 class="pillar-title">Mathematical Edge &amp; Rigor</h3>
-          <p class="pillar-desc">
-            From quantitative financial engineering to machine learning foundation models, every system is 
-            empirically tested, validated against out-of-sample data, and optimized for maximum resilience.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section id="projects">
     <div class="container">
       <div class="section-header">
-        <div class="section-kicker">Selected Work</div>
-        <h2 class="section-title">Featured Projects &amp; Innovations</h2>
+        <div class="section-kicker">In The Making</div>
+        <h2 class="section-title">Current &amp; Future Projects</h2>
       </div>
 
       <div class="projects-grid">
         <div class="project-card">
           <div>
-            <span class="project-tag">QUANTITATIVE SYSTEMS &bull; ACTIVE</span>
-            <h3 class="project-title">Praecursor-EGX Terminal</h3>
+            <span class="project-tag active">&bull; IN ACTIVE DEVELOPMENT</span>
+            <h3 class="project-title">Praecursor-EGX</h3>
             <p class="project-desc">
-              An institutional-grade algorithmic quantitative intelligence system for the Egyptian Stock Exchange. 
-              Features the Kronos Candlestick Foundation Model (4.1M params), dual XGBoost/LightGBM ensembles, 
-              50+ technical alpha factors, real-time tick consensus validation, and automated Telegram telemetry.
+              An algorithmic market intelligence and screening platform for the Egyptian Stock Exchange (EGX). 
+              Engineered to scan daily price actions, compute technical signals, run machine learning models, 
+              and generate automated market intelligence.
             </p>
             <div class="project-tech">
               <span class="tech-pill">Python</span>
-              <span class="tech-pill">PyTorch</span>
-              <span class="tech-pill">XGBoost</span>
+              <span class="tech-pill">Financial Data</span>
+              <span class="tech-pill">Machine Learning</span>
               <span class="tech-pill">FastAPI</span>
-              <span class="tech-pill">SQLite</span>
+              <span class="tech-pill">Automation</span>
             </div>
           </div>
           <a href="https://github.com/ahmedwalidd09/Praecursor-EGX" target="_blank" rel="noopener" class="project-link">
-            <span>Inspect Repository</span>
+            <span>Inspect on GitHub</span>
             <span>&rarr;</span>
           </a>
         </div>
 
         <div class="project-card">
           <div>
-            <span class="project-tag">HARDWARE &bull; EMBEDDED</span>
-            <h3 class="project-title">Autonomous Systems &amp; Robotics</h3>
+            <span class="project-tag">&bull; FUTURE PROJECT // IN THE MAKING</span>
+            <h3 class="project-title">Autonomous Engineering Tools</h3>
             <p class="project-desc">
-              Explorations in autonomous navigation, PID control loops, sensor fusion (IMU, LiDAR, Computer Vision), 
-              and microcontroller firmware designed for deterministic, real-time actuation under physical constraints.
+              Tools and workflows designed to leverage autonomous AI agents and computational pipelines 
+              to streamline prototyping, code analysis, and complex engineering tasks.
             </p>
             <div class="project-tech">
-              <span class="tech-pill">C++</span>
-              <span class="tech-pill">Embedded Systems</span>
-              <span class="tech-pill">Control Theory</span>
-              <span class="tech-pill">Robotics</span>
-            </div>
-          </div>
-          <a href="https://github.com/ahmedwalidd09" target="_blank" rel="noopener" class="project-link">
-            <span>View Architecture</span>
-            <span>&rarr;</span>
-          </a>
-        </div>
-
-        <div class="project-card">
-          <div>
-            <span class="project-tag">DEEP LEARNING &bull; RESEARCH</span>
-            <h3 class="project-title">Predictive Foundation Models</h3>
-            <p class="project-desc">
-              Research and implementation of transformer architectures for high-dimensional time-series forecasting, 
-              conformal prediction confidence intervals, and Markov Regime Switching engines for high-stakes decision making.
-            </p>
-            <div class="project-tech">
-              <span class="tech-pill">Transformers</span>
-              <span class="tech-pill">Time Series</span>
-              <span class="tech-pill">Statistical Mechanics</span>
+              <span class="tech-pill">AI Agents</span>
+              <span class="tech-pill">Developer Tooling</span>
+              <span class="tech-pill">Automation</span>
               <span class="tech-pill">Python</span>
             </div>
           </div>
-          <a href="https://github.com/ahmedwalidd09" target="_blank" rel="noopener" class="project-link">
-            <span>Explore Models</span>
-            <span>&rarr;</span>
-          </a>
+          <div class="project-link wip">
+            <span>In Ideation &amp; Prototyping</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div>
+            <span class="project-tag">&bull; FUTURE EXPLORATION</span>
+            <h3 class="project-title">Hardware &amp; Embedded Experiments</h3>
+            <p class="project-desc">
+              Bridging software logic with the physical world &mdash; upcoming explorations into microcontrollers, 
+              sensor fusion, and robotics control systems.
+            </p>
+            <div class="project-tech">
+              <span class="tech-pill">Embedded Systems</span>
+              <span class="tech-pill">Microcontrollers</span>
+              <span class="tech-pill">Robotics</span>
+              <span class="tech-pill">Sensors</span>
+            </div>
+          </div>
+          <div class="project-link wip">
+            <span>Stay Tuned // In Pipeline</span>
+          </div>
         </div>
       </div>
     </div>
@@ -798,7 +727,7 @@
   <section id="terminal">
     <div class="container">
       <div class="section-header">
-        <div class="section-kicker">Interactive HUD</div>
+        <div class="section-kicker">Live Environment</div>
         <h2 class="section-title">Terminal Console</h2>
       </div>
 
@@ -811,58 +740,56 @@
         </div>
         <div class="term-body" id="terminal-body">
           <div class="term-line"><span class="prompt">ahmed@space:~$</span> whoami</div>
-          <div class="term-line term-output">Ahmed Walid &mdash; Future Engineer, Builder, Problem Solver. Based in Cairo.</div>
-          <div class="term-line"><span class="prompt">ahmed@space:~$</span> cat vision.txt</div>
-          <div class="term-line term-highlight">&gt; "The best way to predict the future is to engineer it from first principles."</div>
-          <div class="term-line"><span class="prompt">ahmed@space:~$</span> systemctl status ambitions</div>
-          <div class="term-line term-output">Active: <span class="term-highlight">running (continuous improvement &bull; 100% uptime)</span></div>
+          <div class="term-line term-output">Ahmed Walid &mdash; Future Engineer, Builder &amp; Problem Solver based in Cairo.</div>
+          <div class="term-line"><span class="prompt">ahmed@space:~$</span> cat current_focus.txt</div>
+          <div class="term-line term-highlight">&gt; "Developing Praecursor-EGX, exploring intelligent systems, and engineering from first principles."</div>
+          <div class="term-line"><span class="prompt">ahmed@space:~$</span> status</div>
+          <div class="term-line term-output">Mode: <span class="term-highlight">In The Lab &bull; Building, Learning &amp; Prototyping</span></div>
           <div class="term-line"><span class="prompt">ahmed@space:~$</span> <span class="pulse-cursor"></span></div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="skills">
+  <section id="toolkit">
     <div class="container">
       <div class="section-header">
-        <div class="section-kicker">Capabilities</div>
-        <h2 class="section-title">Engineering Toolkit</h2>
+        <div class="section-kicker">Focus &amp; Toolkit</div>
+        <h2 class="section-title">Technologies &amp; Interests</h2>
       </div>
 
       <div class="skills-categories">
         <div class="skill-cat">
-          <div class="skill-cat-title">Systems &amp; Languages</div>
+          <div class="skill-cat-title">Languages &amp; Core</div>
           <div class="skill-tags">
             <span class="skill-pill">Python</span>
-            <span class="skill-pill">C / C++</span>
+            <span class="skill-pill">JavaScript</span>
             <span class="skill-pill">TypeScript</span>
-            <span class="skill-pill">SQL</span>
-            <span class="skill-pill">Bash / Linux</span>
+            <span class="skill-pill">HTML / CSS</span>
             <span class="skill-pill">Git / GitHub</span>
+            <span class="skill-pill">Bash / Linux</span>
           </div>
         </div>
 
         <div class="skill-cat">
-          <div class="skill-cat-title">AI &amp; Quantitative Engineering</div>
+          <div class="skill-cat-title">Data &amp; Systems</div>
           <div class="skill-tags">
-            <span class="skill-pill">PyTorch</span>
-            <span class="skill-pill">Transformers</span>
-            <span class="skill-pill">XGBoost / LightGBM</span>
-            <span class="skill-pill">Algorithmic Trading</span>
-            <span class="skill-pill">Risk Management (Half-Kelly)</span>
-            <span class="skill-pill">Statistical Mechanics</span>
+            <span class="skill-pill">FastAPI</span>
+            <span class="skill-pill">Machine Learning</span>
+            <span class="skill-pill">Financial Data APIs</span>
+            <span class="skill-pill">SQLite / Databases</span>
+            <span class="skill-pill">Algorithmic Systems</span>
           </div>
         </div>
 
         <div class="skill-cat">
-          <div class="skill-cat-title">Hardware &amp; Architecture</div>
+          <div class="skill-cat-title">Future Focus</div>
           <div class="skill-tags">
-            <span class="skill-pill">Microcontrollers</span>
-            <span class="skill-pill">Embedded Systems</span>
-            <span class="skill-pill">Sensor Integration</span>
-            <span class="skill-pill">Real-Time Pipelines</span>
-            <span class="skill-pill">Control Theory</span>
-            <span class="skill-pill">Edge Deployment</span>
+            <span class="skill-pill">Autonomous Systems</span>
+            <span class="skill-pill">Robotics</span>
+            <span class="skill-pill">Embedded Control</span>
+            <span class="skill-pill">Quantitative Modeling</span>
+            <span class="skill-pill">Cloud Deployment</span>
           </div>
         </div>
       </div>
@@ -872,10 +799,9 @@
   <section id="contact">
     <div class="container">
       <div class="contact-card">
-        <h2>Let&apos;s Build Something Incredible.</h2>
+        <h2>Let&apos;s Build Together.</h2>
         <p>
-          Whether you want to collaborate on breakthrough engineering projects, discuss quantitative systems, 
-          or just say hello &mdash; my inbox is always open.
+          Whether you want to discuss engineering ideas, collaborate on projects, or talk tech &mdash; feel free to reach out.
         </p>
 
         <div class="contact-links">
@@ -885,6 +811,9 @@
           <a href="https://github.com/ahmedwalidd09" target="_blank" rel="noopener" class="btn-secondary">
             <span>GitHub Profile &rarr;</span>
           </a>
+          <a href="https://instagram.com/_ahmedwalid._" target="_blank" rel="noopener" class="btn-secondary">
+            <span>Instagram: @_ahmedwalid._</span>
+          </a>
         </div>
       </div>
     </div>
@@ -892,7 +821,7 @@
 
   <footer>
     <div class="container footer-inner">
-      <div>&copy; 2026 Ahmed Walid. All rights reserved. &bull; <span style="color: #ffffff;">ahmedwalid.space</span></div>
+      <div>&copy; 2026 Ahmed Walid &bull; Future Engineer &bull; <span style="color: #ffffff;">ahmedwalid.space</span></div>
       <div id="footer-clock" style="font-family: var(--font-mono); color: #ffffff;">CAIRO TIME</div>
     </div>
   </footer>

@@ -306,6 +306,60 @@
       color: #ffffff;
     }
 
+    /* About Section */
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .about-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 34px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+    }
+    .about-card:hover {
+      border-color: var(--card-border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+    }
+    .about-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .about-card:hover::before { opacity: 1; }
+    .about-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .about-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+    .about-desc {
+      color: var(--text-muted);
+      font-size: 0.94rem;
+      line-height: 1.65;
+    }
+
     /* Projects Grid */
     .projects-grid {
       display: grid;
@@ -625,6 +679,7 @@
         <span class="brand-tag">// FUTURE ENGINEER</span>
       </a>
       <ul class="nav-links">
+        <li><a href="#about">About</a></li>
         <li><a href="#projects">In The Making</a></li>
         <li><a href="#terminal">Terminal</a></li>
         <li><a href="#toolkit">Toolkit</a></li>
@@ -683,6 +738,44 @@
       </div>
     </div>
   </header>
+
+  <section id="about">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-kicker">Background &amp; Discipline</div>
+        <h2 class="section-title">About Me</h2>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-kicker">01 // ATHLETIC DISCIPLINE</div>
+          <h3 class="about-title">Competitive Tennis &bull; 2x National Titles</h3>
+          <p class="about-desc">
+            Played competitive tennis for 9 years, developing relentless work ethic, mental toughness, 
+            and physical endurance under intense pressure &mdash; winning two national tournament championships.
+          </p>
+        </div>
+
+        <div class="about-card">
+          <div class="about-kicker">02 // STRATEGIC PATTERNS</div>
+          <h3 class="about-title">1400 Peak Chess.com Elo</h3>
+          <p class="about-desc">
+            Passionate about tactical calculation, positional foresight, and pattern recognition. Strategic 
+            thinking on the chessboard directly shapes how I design algorithms, evaluate trade-offs, and solve complex problems.
+          </p>
+        </div>
+
+        <div class="about-card">
+          <div class="about-kicker">03 // ACADEMIC PATHWAY</div>
+          <h3 class="about-title">Roots School &rarr; EBIS (Years 9&ndash;11)</h3>
+          <p class="about-desc">
+            Studied at Roots School, followed by rigorous British curriculum education from Years 9 to 11 
+            at Egyptian British International School (EBIS) &mdash; building solid analytical foundations and an ambitious engineering mindset.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section id="projects">
     <div class="container">
@@ -778,6 +871,8 @@
         <div class="term-body" id="terminal-body">
           <div class="term-line"><span class="prompt">ahmed@space:~$</span> whoami</div>
           <div class="term-line term-output">Ahmed Walid &mdash; Future Engineer, Builder &amp; Problem Solver based in Cairo.</div>
+          <div class="term-line"><span class="prompt">ahmed@space:~$</span> cat background.json</div>
+          <div class="term-line term-output">{ &quot;tennis&quot;: &quot;9 yrs competitive &bull; 2x national champion&quot;, &quot;chess&quot;: &quot;1400 peak chess.com Elo&quot;, &quot;schools&quot;: [&quot;Roots School&quot;, &quot;EBIS (Y9-11)&quot;] }</div>
           <div class="term-line"><span class="prompt">ahmed@space:~$</span> cat current_focus.txt</div>
           <div class="term-line term-highlight">&gt; "Developing Praecursor-EGX, exploring intelligent systems, and engineering from first principles."</div>
           <div class="term-line"><span class="prompt">ahmed@space:~$</span> status</div>

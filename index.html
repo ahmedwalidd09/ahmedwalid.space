@@ -1816,34 +1816,32 @@
       });
 
       const scriptSteps = [
-        { label: 'LOADING KERNEL', initial: '...', final: 'OK', pauseAfter: 250 },
-        { label: 'INITIALIZING MODULES', initial: '...', final: 'OK', pauseAfter: 200 },
+        { label: 'CONNECTING TO CAIRO', initial: '...', final: 'PING: 24ms', pauseAfter: 250 },
+        { label: 'FINDING AHMED', initial: '...', final: 'AT HIS DESK (as usual)', pauseAfter: 250 },
+        { label: 'ASKING HOW HIS DAY WAS GOING', initial: '...', final: '"not bad, can\'t complain"', pauseAfter: 300 },
         { 
-          label: 'CONTACTING AHMED', 
+          label: 'DID HE DRINK WATER TODAY?', 
           initial: '...', 
-          final: 'WAITING', 
-          swapTo: 'CONNECTED',
+          final: 'DOUBTFUL', 
+          swapTo: '"working on it"',
           swapDelay: 400,
-          pauseAfter: 250 
+          pauseAfter: 280 
         },
         { 
-          label: 'REQUESTING ACCESS', 
+          label: 'ASKING AHMED FOR PERMISSION', 
           initial: '...', 
           final: 'HOLD ON', 
-          swapTo: 'APPROVED',
-          swapDelay: 350,
-          pauseAfter: 250 
+          swapTo: '"yeah, let them in"',
+          swapDelay: 400,
+          pauseAfter: 300 
         },
-        { label: 'ASKING AHMED HOW HIS DAY IS GOING', initial: '...', final: '"not bad"', pauseAfter: 300 },
         { 
-          label: 'CHECKING IF VISITOR IS COOL', 
+          label: 'CHECKING VISITOR VIBES', 
           initial: '...', 
-          final: 'PROBABLY', 
-          swapTo: 'VERIFIED ✓',
-          swapDelay: 250,
-          pauseAfter: 250 
+          final: 'VERIFIED COOL ✓', 
+          pauseAfter: 350 
         },
-        { label: 'ACCESS GRANTED — WELCOME.', isSingle: true, pauseAfter: 500 }
+        { label: "WELCOME TO AHMED'S SPACE.", isSingle: true, pauseAfter: 600 }
       ];
 
       function dots(count) {

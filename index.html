@@ -17,6 +17,19 @@
 -->
 <html lang="en">
 <head>
+  <script>
+    // Unregister any stale Service Worker or PWA cache
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(regs) {
+        for (var r of regs) r.unregister();
+      });
+    }
+    if ('caches' in window) {
+      caches.keys().then(function(names) {
+        for (var name of names) caches.delete(name);
+      });
+    }
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -1286,16 +1299,9 @@
       to { --border-angle: 360deg; }
     }
 
-    /* Feature 15: Prefers-Reduced-Motion Respect */
+    /* Gentle Reduced Motion Handling */
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-      #boot-screen { display: none !important; }
-      .reveal-item { opacity: 1 !important; transform: none !important; }
-      .grain-overlay { display: none !important; }
+      .custom-cursor-dot, .custom-cursor-ring { display: none !important; }
     }
   </style>
 <!--
@@ -1312,6 +1318,7 @@
   <div id="dimension-label">[ DIMENSION SHIFT // ACTIVE ]</div>
   <!-- System Boot Sequence Overlay -->
   <div id="boot-screen">
+    <div style="position: absolute; top: 20px; right: 20px; font-family: var(--font-mono); font-size: 0.72rem; color: #71717a; border: 1px solid rgba(255,255,255,0.12); padding: 4px 10px; border-radius: 4px; cursor: pointer;" id="boot-skip-btn">[ ESC / Tap to skip ]</div>
     <div class="boot-inner" id="boot-terminal"></div>
   </div>
 
@@ -1787,13 +1794,22 @@
       const bootTerminal = document.getElementById('boot-terminal');
       if (!bootScreen || !bootTerminal) return;
 
-      // Respect reduced motion & only run once per session
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || sessionStorage.getItem('boot_complete') === 'true') {
-        bootScreen.style.display = 'none';
-        return;
+      document.body.style.overflow = 'hidden';
+
+      function skipBoot() {
+        bootScreen.style.opacity = '0';
+        document.body.style.overflow = '';
+        setTimeout(() => { bootScreen.style.display = 'none'; }, 400);
       }
 
-      document.body.style.overflow = 'hidden';
+      const skipBtn = document.getElementById('boot-skip-btn');
+      if (skipBtn) skipBtn.addEventListener('click', skipBoot);
+      bootScreen.addEventListener('click', (e) => {
+        if (e.target !== bootTerminal && !bootTerminal.contains(e.target)) skipBoot();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && bootScreen.style.display !== 'none') skipBoot();
+      });
 
       const scriptSteps = [
         { label: 'LOADING KERNEL', initial: '...', final: 'OK', pauseAfter: 250 },
@@ -1848,13 +1864,8 @@
         if (stepIndex >= scriptSteps.length) {
           // Finished boot
           setTimeout(() => {
-            bootScreen.style.opacity = '0';
-            document.body.style.overflow = '';
-            sessionStorage.setItem('boot_complete', 'true');
-            setTimeout(() => {
-              bootScreen.style.display = 'none';
-            }, 650);
-          }, 500);
+            skipBoot();
+          }, 600);
           return;
         }
 
@@ -2227,8 +2238,6 @@
        FEATURE 3: STAGGERED SCROLL REVEAL ANIMATIONS
        ======================================================== */
     (function initScrollReveal() {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
       const sections = document.querySelectorAll('section, header.hero');
       sections.forEach(section => {
         const children = section.querySelectorAll(
@@ -2298,7 +2307,7 @@
        ======================================================== */
     (function initCursorTrail() {
       const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.matchMedia('(pointer: coarse)').matches;
-      if (isTouch || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (isTouch) return;
 
       const TRAIL_COUNT = 5;
       const trails = [];
@@ -2473,8 +2482,6 @@
        FEATURE 18: TERMINAL AUTO-TYPE ON FIRST VIEW
        ======================================================== */
     (function initTerminalAutoType() {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
       const termBody = document.getElementById('terminal-body');
       if (!termBody) return;
 

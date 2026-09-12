@@ -21,6 +21,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ahmed Walid // Future Engineer</title>
   <meta name="description" content="Ahmed Walid — Future Engineer. Developing Praecursor-EGX and exploring systems, intelligence, and software.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23030305'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23a1a1aa' font-family='monospace' font-size='13' font-weight='bold'>AW</text></svg>">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ahmedwalid.space">
+  <meta property="og:title" content="Ahmed Walid // Future Engineer">
+  <meta property="og:description" content="Future Engineer based in Cairo, Egypt. Building algorithmic systems, exploring intelligent engineering, and solving problems from first principles.">
+  <meta property="og:site_name" content="ahmedwalid.space">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Ahmed Walid // Future Engineer">
+  <meta name="twitter:description" content="Future Engineer based in Cairo, Egypt. Building algorithmic systems and solving problems from first principles.">
+
+  <!-- Additional SEO -->
+  <meta name="author" content="Ahmed Walid">
+  <meta name="theme-color" content="#030305">
+  <link rel="canonical" href="https://ahmedwalid.space">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -997,6 +1015,285 @@
     .project-card:hover {
       box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55);
     }
+
+    /* Feature 11: Custom Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
+    html { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.12) transparent; }
+
+    /* Feature 12: Text Selection */
+    ::selection {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+    ::-moz-selection {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    /* Feature 10: Film Grain Overlay */
+    .grain-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 800;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    /* Feature 2: Konami Dimension Shift */
+    body.dimension-shift {
+      filter: invert(1) hue-rotate(180deg);
+    }
+    body.dimension-shift #ambient-canvas,
+    body.dimension-shift .vignette,
+    body.dimension-shift .grain-overlay,
+    body.dimension-shift img,
+    body.dimension-shift video {
+      filter: invert(1) hue-rotate(180deg);
+    }
+    #dimension-label {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 6px 16px;
+      border-radius: 100px;
+      letter-spacing: 0.08em;
+      z-index: 100000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    #dimension-label.visible { opacity: 1; }
+
+    /* Feature 3: Scroll Reveal Animations */
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-item.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Feature 8: Keyboard Nav Overlay */
+    #keyboard-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 3, 5, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 10001;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    #keyboard-overlay.active { display: flex; }
+    .kb-card {
+      max-width: 380px;
+      width: 90%;
+      padding: 32px;
+      background: rgba(12, 12, 16, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+    }
+    .kb-title {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: #a1a1aa;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .kb-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+    }
+    .kb-key {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 3px 10px;
+      border-radius: 5px;
+      color: #ffffff;
+    }
+    .kb-action {
+      font-size: 0.85rem;
+      color: #8b8b99;
+    }
+    .kb-mystery {
+      color: #52525f;
+      font-style: italic;
+    }
+
+    /* Feature 17: Command Palette */
+    #command-palette {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 3, 5, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 10002;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: min(20vh, 180px);
+    }
+    #command-palette.active { display: flex; }
+    .cmd-card {
+      width: min(480px, 92vw);
+      background: rgba(12, 12, 16, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    }
+    .cmd-input-wrap {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .cmd-icon {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      color: #71717a;
+    }
+    .cmd-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      color: #ffffff;
+    }
+    .cmd-input::placeholder { color: #52525f; }
+    .cmd-results {
+      max-height: 280px;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .cmd-item {
+      padding: 11px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    .cmd-item:hover, .cmd-item.selected {
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .cmd-item-label {
+      font-size: 0.88rem;
+      color: #e4e4e7;
+    }
+    .cmd-item-hint {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #71717a;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .cmd-empty {
+      padding: 24px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #71717a;
+    }
+
+    /* Feature 18: Terminal Auto-Type */
+    .term-line.term-hidden {
+      opacity: 0;
+      height: 0;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden;
+      transition: none;
+    }
+    .term-line.term-visible {
+      opacity: 1;
+      height: auto;
+      overflow: visible;
+      transition: opacity 0.25s ease;
+    }
+
+    /* Feature 19: Animated Border Glow on Card Hover */
+    @property --border-angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+    .about-card,
+    .project-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .about-card::before,
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: conic-gradient(
+        from var(--border-angle),
+        transparent 70%,
+        rgba(255, 255, 255, 0.25) 80%,
+        rgba(255, 255, 255, 0.45) 85%,
+        rgba(255, 255, 255, 0.25) 90%,
+        transparent 100%
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .about-card:hover::before,
+    .project-card:hover::before {
+      opacity: 1;
+      animation: borderSpin 3s linear infinite;
+    }
+    @keyframes borderSpin {
+      to { --border-angle: 360deg; }
+    }
+
+    /* Feature 15: Prefers-Reduced-Motion Respect */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      #boot-screen { display: none !important; }
+      .reveal-item { opacity: 1 !important; transform: none !important; }
+      .grain-overlay { display: none !important; }
+    }
   </style>
 <!--
   if you got this far in the source,
@@ -1005,6 +1302,11 @@
 -->
 </head>
 <body>
+  <!-- Feature 10: Film Grain Texture -->
+  <div class="grain-overlay"></div>
+
+  <!-- Feature 2: Konami Dimension Label -->
+  <div id="dimension-label">[ DIMENSION SHIFT // ACTIVE ]</div>
   <!-- System Boot Sequence Overlay -->
   <div id="boot-screen">
     <div class="boot-inner" id="boot-terminal"></div>
@@ -1338,7 +1640,10 @@
 
   <footer>
     <div class="container footer-inner">
-      <div>&copy; 2026 Ahmed Walid &bull; Future Engineer &bull; <span style="color: #ffffff;">ahmedwalid.space</span></div>
+      <div>
+        <div>&copy; 2026 Ahmed Walid &bull; Future Engineer &bull; <span style="color: #ffffff;">ahmedwalid.space</span></div>
+        <div style="font-family: var(--font-mono); font-size: 0.68rem; color: #52525f; margin-top: 6px; letter-spacing: 0.04em;">0 frameworks. 0 libraries. pure code.</div>
+      </div>
       <div id="footer-clock" style="font-family: var(--font-mono); color: #ffffff;">CAIRO TIME</div>
     </div>
   </footer>
@@ -1346,6 +1651,21 @@
   <div id="toast">Email copied to clipboard!</div>
 
   <script>
+    /* ========================================================
+       FEATURE 1: CONSOLE.LOG ASCII ART
+       ======================================================== */
+    console.log(`%c
+   █████╗ ██╗    ██╗
+  ██╔══██╗██║    ██║
+  ███████║██║ █╗ ██║
+  ██╔══██║██║███╗██║
+  ██║  ██║╚███╔███╔╝
+  ╚═╝  ╚═╝ ╚══╝╚══╝
+`, 'color: #a1a1aa; font-size: 10px; font-family: monospace;');
+    console.log('%cYou opened the console. I respect that.', 'color: #ffffff; font-size: 13px; font-weight: bold;');
+    console.log('%cahmedwalidd09@gmail.com', 'color: #8b8b99; font-size: 11px;');
+    console.log('%c—— AW // Cairo, Egypt', 'color: #52525f; font-size: 10px;');
+
     function updateClock() {
       try {
         const d = new Intl.DateTimeFormat('en-GB', {
@@ -1464,8 +1784,8 @@
       const bootTerminal = document.getElementById('boot-terminal');
       if (!bootScreen || !bootTerminal) return;
 
-      // Only run once per session
-      if (sessionStorage.getItem('boot_complete') === 'true') {
+      // Respect reduced motion & only run once per session
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || sessionStorage.getItem('boot_complete') === 'true') {
         bootScreen.style.display = 'none';
         return;
       }
@@ -1852,6 +2172,354 @@
       }
     })();
 
+
+    /* ========================================================
+       FEATURE 2: KONAMI CODE → DIMENSION SHIFT
+       ======================================================== */
+    (function initKonami() {
+      const code = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','KeyB','KeyA'];
+      let pos = 0;
+      const label = document.getElementById('dimension-label');
+
+      function toggleDimension() {
+        document.body.classList.toggle('dimension-shift');
+        if (document.body.classList.contains('dimension-shift')) {
+          if (label) label.classList.add('visible');
+        } else {
+          if (label) label.classList.remove('visible');
+        }
+      }
+
+      // Desktop: keyboard listener
+      document.addEventListener('keydown', (e) => {
+        if (e.code === code[pos]) {
+          pos++;
+          if (pos === code.length) {
+            toggleDimension();
+            pos = 0;
+          }
+        } else {
+          pos = 0;
+        }
+      });
+
+      // Mobile: 5 rapid taps on footer
+      let tapCount = 0;
+      let tapTimer = null;
+      const footer = document.querySelector('footer');
+      if (footer) {
+        footer.addEventListener('click', () => {
+          tapCount++;
+          clearTimeout(tapTimer);
+          tapTimer = setTimeout(() => { tapCount = 0; }, 1500);
+          if (tapCount >= 5) {
+            toggleDimension();
+            tapCount = 0;
+          }
+        });
+      }
+    })();
+
+    /* ========================================================
+       FEATURE 3: STAGGERED SCROLL REVEAL ANIMATIONS
+       ======================================================== */
+    (function initScrollReveal() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const sections = document.querySelectorAll('section, header.hero');
+      sections.forEach(section => {
+        const children = section.querySelectorAll(
+          '.section-kicker, .section-title, .section-header p, .about-card, .project-card, .stat-card, .skill-cat, .contact-card, .hero h1, .hero-sub, .hero-desc, .hero-actions, .stats-strip, .terminal-wrap, .whoami-intro'
+        );
+        children.forEach(child => child.classList.add('reveal-item'));
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const isHero = entry.target.classList.contains('hero');
+            const items = entry.target.querySelectorAll('.reveal-item');
+            items.forEach((item, i) => {
+              if (isHero) {
+                item.classList.add('revealed');
+              } else {
+                setTimeout(() => item.classList.add('revealed'), i * 80);
+              }
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08 });
+
+      sections.forEach(s => observer.observe(s));
+    })();
+
+    /* ========================================================
+       FEATURE 8: KEYBOARD NAVIGATION OVERLAY
+       ======================================================== */
+    (function initKeyboardNav() {
+      const overlay = document.getElementById('keyboard-overlay');
+      const cmdPalette = document.getElementById('command-palette');
+      if (!overlay) return;
+
+      document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (cmdPalette && cmdPalette.classList.contains('active')) return;
+
+        if (e.key === '?' && !e.ctrlKey && !e.metaKey) {
+          e.preventDefault();
+          overlay.classList.toggle('active');
+          return;
+        }
+        if (e.key === 'Escape') {
+          overlay.classList.remove('active');
+          return;
+        }
+
+        if (overlay.classList.contains('active')) return;
+
+        const nav = { 't': '#terminal', 'p': '#projects', 'c': '#contact' };
+        if (nav[e.key.toLowerCase()] && !e.ctrlKey && !e.metaKey) {
+          const target = document.querySelector(nav[e.key.toLowerCase()]);
+          if (target) target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.classList.remove('active');
+      });
+    })();
+
+    /* ========================================================
+       FEATURE 9: CURSOR COMET TRAIL (Desktop Only)
+       ======================================================== */
+    (function initCursorTrail() {
+      const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.matchMedia('(pointer: coarse)').matches;
+      if (isTouch || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const TRAIL_COUNT = 5;
+      const trails = [];
+      let lastX = 0, lastY = 0;
+
+      for (let i = 0; i < TRAIL_COUNT; i++) {
+        const dot = document.createElement('div');
+        dot.style.cssText = `
+          position: fixed; top: 0; left: 0; width: 4px; height: 4px;
+          background: rgba(255, 255, 255, ${0.22 - i * 0.04});
+          border-radius: 50%; pointer-events: none; z-index: 9996;
+          transform: translate(-50%, -50%); opacity: 0;
+          transition: opacity 0.15s ease;
+        `;
+        document.body.appendChild(dot);
+        trails.push({ el: dot, x: 0, y: 0 });
+      }
+
+      window.addEventListener('mousemove', (e) => {
+        const dx = e.clientX - lastX;
+        const dy = e.clientY - lastY;
+        const speed = Math.sqrt(dx * dx + dy * dy);
+        lastX = e.clientX;
+        lastY = e.clientY;
+
+        if (speed > 8) {
+          trails.forEach(t => t.el.style.opacity = '1');
+        } else {
+          trails.forEach(t => t.el.style.opacity = '0');
+        }
+      }, { passive: true });
+
+      function animateTrails() {
+        let leaderX = lastX, leaderY = lastY;
+        trails.forEach((t, i) => {
+          const ease = 0.28 - i * 0.04;
+          t.x += (leaderX - t.x) * ease;
+          t.y += (leaderY - t.y) * ease;
+          t.el.style.transform = `translate(${t.x}px, ${t.y}px) translate(-50%, -50%)`;
+          leaderX = t.x;
+          leaderY = t.y;
+        });
+        requestAnimationFrame(animateTrails);
+      }
+      animateTrails();
+    })();
+
+    /* ========================================================
+       FEATURE 14: HAPTIC FEEDBACK ON MOBILE
+       ======================================================== */
+    (function initHaptics() {
+      if (!navigator.vibrate) return;
+      const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+      if (!isTouch) return;
+
+      document.querySelectorAll('a, button, .project-card, .about-card').forEach(el => {
+        el.addEventListener('touchstart', () => {
+          try { navigator.vibrate(8); } catch(e) {}
+        }, { passive: true });
+      });
+    })();
+
+    /* ========================================================
+       FEATURE 17: COMMAND PALETTE (Ctrl+K / Cmd+K)
+       ======================================================== */
+    (function initCommandPalette() {
+      const palette = document.getElementById('command-palette');
+      const input = palette ? palette.querySelector('.cmd-input') : null;
+      const results = document.getElementById('cmd-results');
+      if (!palette || !input || !results) return;
+
+      const commands = [
+        { label: 'Go to Projects', hint: 'P', action: () => { document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' }); }},
+        { label: 'Go to Terminal', hint: 'T', action: () => { document.querySelector('#terminal')?.scrollIntoView({ behavior: 'smooth' }); }},
+        { label: 'Go to Contact', hint: 'C', action: () => { document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' }); }},
+        { label: 'Go to Who Am I', hint: 'W', action: () => { document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' }); }},
+        { label: 'Go to Toolkit', hint: 'K', action: () => { document.querySelector('#toolkit')?.scrollIntoView({ behavior: 'smooth' }); }},
+        { label: 'Copy Email', hint: 'email', action: () => { copyEmail(); }},
+        { label: 'Open GitHub', hint: 'github', action: () => { window.open('https://github.com/ahmedwalidd09', '_blank'); }},
+        { label: 'Open Instagram', hint: 'ig', action: () => { window.open('https://instagram.com/_ahmedwalid._', '_blank'); }},
+        { label: 'Scroll to Top', hint: 'top', action: () => { window.scrollTo({ top: 0, behavior: 'smooth' }); }},
+      ];
+
+      let selectedIndex = 0;
+      let currentFiltered = commands;
+
+      function render(filter) {
+        currentFiltered = filter
+          ? commands.filter(c => c.label.toLowerCase().includes(filter) || c.hint.toLowerCase().includes(filter))
+          : commands;
+
+        if (currentFiltered.length === 0) {
+          results.innerHTML = '<div class="cmd-empty">No matching commands</div>';
+          return;
+        }
+
+        selectedIndex = Math.min(selectedIndex, currentFiltered.length - 1);
+        results.innerHTML = currentFiltered.map((c, i) =>
+          `<div class="cmd-item${i === selectedIndex ? ' selected' : ''}" data-index="${i}">
+            <span class="cmd-item-label">${c.label}</span>
+            <span class="cmd-item-hint">${c.hint}</span>
+          </div>`
+        ).join('');
+
+        results.querySelectorAll('.cmd-item').forEach((el, i) => {
+          el.addEventListener('click', () => {
+            currentFiltered[i].action();
+            closePalette();
+          });
+        });
+      }
+
+      function openPalette() {
+        palette.classList.add('active');
+        input.value = '';
+        selectedIndex = 0;
+        render('');
+        setTimeout(() => input.focus(), 60);
+      }
+
+      function closePalette() {
+        palette.classList.remove('active');
+        input.value = '';
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          if (palette.classList.contains('active')) {
+            closePalette();
+          } else {
+            openPalette();
+          }
+          return;
+        }
+
+        if (!palette.classList.contains('active')) return;
+
+        if (e.key === 'Escape') {
+          closePalette();
+          return;
+        }
+
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          selectedIndex = Math.min(selectedIndex + 1, currentFiltered.length - 1);
+          render(input.value.toLowerCase());
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          selectedIndex = Math.max(selectedIndex - 1, 0);
+          render(input.value.toLowerCase());
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          if (currentFiltered[selectedIndex]) {
+            currentFiltered[selectedIndex].action();
+            closePalette();
+          }
+        }
+      });
+
+      input.addEventListener('input', () => {
+        selectedIndex = 0;
+        render(input.value.toLowerCase());
+      });
+
+      palette.addEventListener('click', (e) => {
+        if (e.target === palette) closePalette();
+      });
+    })();
+
+    /* ========================================================
+       FEATURE 18: TERMINAL AUTO-TYPE ON FIRST VIEW
+       ======================================================== */
+    (function initTerminalAutoType() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const termBody = document.getElementById('terminal-body');
+      if (!termBody) return;
+
+      const lines = termBody.querySelectorAll('.term-line');
+      lines.forEach(line => line.classList.add('term-hidden'));
+
+      let triggered = false;
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !triggered) {
+            triggered = true;
+            observer.unobserve(entry.target);
+            revealLines(lines);
+          }
+        });
+      }, { threshold: 0.25 });
+
+      observer.observe(termBody);
+
+      function revealLines(lineList) {
+        let delay = 150;
+        lineList.forEach((line) => {
+          setTimeout(() => {
+            line.classList.remove('term-hidden');
+            line.classList.add('term-visible');
+          }, delay);
+          delay += 280;
+        });
+      }
+    })();
+
+    /* ========================================================
+       FEATURE 16: PAGE LOAD SPEED DISPLAY
+       ======================================================== */
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const perf = performance.getEntriesByType('navigation')[0];
+        const loadTime = perf ? (perf.loadEventEnd / 1000).toFixed(2) : (performance.now() / 1000).toFixed(2);
+        const clockEl = document.getElementById('footer-clock');
+        if (clockEl && clockEl.parentElement) {
+          const speedSpan = document.createElement('div');
+          speedSpan.style.cssText = 'font-family: var(--font-mono); color: #52525f; font-size: 0.72rem; margin-top: 4px;';
+          speedSpan.textContent = `// loaded in ${loadTime}s`;
+          clockEl.appendChild(speedSpan);
+        }
+      }, 50);
+    });
+
   </script>
   <!--
     you made it to the bottom of the source.
@@ -1860,6 +2528,7 @@
     "the gap between an idea and a working system
      is where i live." — AW
     
+    hint: /nowhere
     × end of transmission ×
   -->
   <!--
@@ -1869,7 +2538,32 @@
     "the gap between an idea and a working system
      is where i live." — AW
     
+    hint: /nowhere
     × end of transmission ×
   -->
+
+  <!-- Feature 8: Keyboard Navigation Overlay -->
+  <div id="keyboard-overlay">
+    <div class="kb-card">
+      <div class="kb-title">Keyboard Navigation</div>
+      <div class="kb-row"><span class="kb-key">T</span><span class="kb-action">Terminal</span></div>
+      <div class="kb-row"><span class="kb-key">P</span><span class="kb-action">Projects</span></div>
+      <div class="kb-row"><span class="kb-key">C</span><span class="kb-action">Contact</span></div>
+      <div class="kb-row"><span class="kb-key">Ctrl+K</span><span class="kb-action">Command Palette</span></div>
+      <div class="kb-row"><span class="kb-key">ESC</span><span class="kb-action">Close</span></div>
+      <div class="kb-row"><span class="kb-key">↑↑↓↓←→←→BA</span><span class="kb-action kb-mystery">???</span></div>
+    </div>
+  </div>
+
+  <!-- Feature 17: Command Palette -->
+  <div id="command-palette">
+    <div class="cmd-card">
+      <div class="cmd-input-wrap">
+        <span class="cmd-icon">></span>
+        <input class="cmd-input" type="text" placeholder="Type a command..." autocomplete="off" spellcheck="false">
+      </div>
+      <div class="cmd-results" id="cmd-results"></div>
+    </div>
+  </div>
 </body>
 </html>

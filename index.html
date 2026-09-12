@@ -700,9 +700,141 @@
       .stats-strip { grid-template-columns: 1fr 1fr; }
       .contact-card { padding: 36px 20px; }
     }
+
+    /* ========================================================
+       IMMERSIVE EXPERIENCE STYLES
+       ======================================================== */
+    /* Boot Screen Overlay */
+    #boot-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      background: #030305;
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 24px;
+      box-sizing: border-box;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .boot-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      width: 100%;
+      font-family: var(--font-mono);
+      font-size: clamp(0.72rem, 2.2vw, 0.84rem);
+      line-height: 1.85;
+      color: #a1a1aa;
+    }
+    .boot-line {
+      white-space: pre-wrap;
+      word-break: break-word;
+      min-height: 1.5em;
+    }
+    .boot-label {
+      color: #8b8b99;
+    }
+    .boot-status {
+      color: #ffffff;
+      font-weight: 700;
+    }
+    .boot-highlight {
+      color: #ffffff;
+      font-weight: 700;
+    }
+    .boot-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 14px;
+      background: #ffffff;
+      vertical-align: middle;
+      margin-left: 4px;
+      animation: bootBlink 0.8s infinite;
+    }
+    @keyframes bootBlink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+    /* Glitch Flash Overlay */
+    #glitch-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 900;
+      opacity: 0;
+      background: transparent;
+    }
+    .glitch-active {
+      animation: subtleGlitch 0.16s ease-out forwards;
+    }
+    @keyframes subtleGlitch {
+      0% {
+        opacity: 0.08;
+        background: linear-gradient(rgba(255, 255, 255, 0.05) 50%, rgba(0, 0, 0, 0.5) 50%),
+                    linear-gradient(90deg, rgba(255,0,0,0.03), rgba(0,255,255,0.03));
+        background-size: 100% 4px, 6px 100%;
+        transform: translateY(-2px);
+      }
+      50% {
+        opacity: 0.05;
+        transform: translateY(2px) scale(1.002);
+      }
+      100% {
+        opacity: 0;
+        transform: none;
+      }
+    }
+
+    /* Custom Cursor (Desktop Only) */
+    .custom-cursor-dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 6px;
+      height: 6px;
+      background: #ffffff;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.2s ease, transform 0.15s ease;
+      opacity: 0;
+    }
+    .custom-cursor-ring {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9997;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+      opacity: 0;
+    }
+    .custom-cursor-ring.hovering {
+      width: 48px;
+      height: 48px;
+      border-color: rgba(255, 255, 255, 0.65);
+      background: rgba(255, 255, 255, 0.03);
+    }
   </style>
 </head>
 <body>
+  <!-- System Boot Sequence Overlay -->
+  <div id="boot-screen">
+    <div class="boot-inner" id="boot-terminal"></div>
+  </div>
+
+  <!-- Subtle Glitch Transition Overlay -->
+  <div id="glitch-overlay"></div>
 
   <canvas id="ambient-canvas"></canvas>
   <div class="vignette"></div>
@@ -971,9 +1103,9 @@
   <section id="contact">
     <div class="container">
       <div class="contact-card">
-        <h2>Let&apos;s Build Together.</h2>
+        <h2>This is an open channel.</h2>
         <p>
-          Whether you want to discuss engineering ideas, collaborate on projects, or talk tech &mdash; feel free to reach out.
+          If you&apos;re building something ambitious and need someone who doesn&apos;t quit &mdash; reach out.
         </p>
 
         <div class="contact-links">
@@ -1042,17 +1174,31 @@
     window.addEventListener('resize', resize);
     resize();
 
+    // Scroll velocity tracking for reactive particles
+    let lastScrollY = window.scrollY;
+    let scrollSpeed = 0;
+    let scrollMultiplier = 1;
+
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.scrollY;
+      const delta = Math.abs(currentScroll - lastScrollY);
+      lastScrollY = currentScroll;
+      scrollSpeed = Math.min(delta * 0.08, 3.5);
+    }, { passive: true });
+
     class Particle {
       constructor() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 0.3;
-        this.vy = (Math.random() - 0.5) * 0.3;
+        this.baseVx = (Math.random() - 0.5) * 0.35;
+        this.baseVy = (Math.random() - 0.5) * 0.35;
+        this.vx = this.baseVx;
+        this.vy = this.baseVy;
         this.radius = Math.random() * 1.2 + 0.4;
       }
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
+      update(mult) {
+        this.x += this.vx * mult;
+        this.y += this.vy * mult;
         if (this.x < 0) this.x = width;
         if (this.x > width) this.x = 0;
         if (this.y < 0) this.y = height;
@@ -1066,12 +1212,18 @@
       }
     }
 
-    for (let i = 0; i < 40; i++) particles.push(new Particle());
+    for (let i = 0; i < 42; i++) particles.push(new Particle());
 
     function animate() {
       ctx.clearRect(0, 0, width, height);
+      
+      // Smooth lerp for scroll multiplier
+      const targetMult = 1 + scrollSpeed;
+      scrollMultiplier += (targetMult - scrollMultiplier) * 0.1;
+      scrollSpeed *= 0.92; // Decay scroll speed
+
       for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
+        particles[i].update(scrollMultiplier);
         particles[i].draw();
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
@@ -1090,6 +1242,313 @@
       requestAnimationFrame(animate);
     }
     animate();
+
+    /* ========================================================
+       1. FEATURE 1: PERSONALITY-DRIVEN BOOT SEQUENCE
+       ======================================================== */
+    (function initBootSequence() {
+      const bootScreen = document.getElementById('boot-screen');
+      const bootTerminal = document.getElementById('boot-terminal');
+      if (!bootScreen || !bootTerminal) return;
+
+      // Only run once per session
+      if (sessionStorage.getItem('boot_complete') === 'true') {
+        bootScreen.style.display = 'none';
+        return;
+      }
+
+      document.body.style.overflow = 'hidden';
+
+      const scriptSteps = [
+        { label: 'LOADING KERNEL', initial: '...', final: 'OK', pauseAfter: 250 },
+        { label: 'INITIALIZING MODULES', initial: '...', final: 'OK', pauseAfter: 200 },
+        { 
+          label: 'CONTACTING AHMED', 
+          initial: '...', 
+          final: 'WAITING', 
+          swapTo: 'CONNECTED',
+          swapDelay: 400,
+          pauseAfter: 250 
+        },
+        { 
+          label: 'REQUESTING ACCESS', 
+          initial: '...', 
+          final: 'HOLD ON', 
+          swapTo: 'APPROVED',
+          swapDelay: 350,
+          pauseAfter: 250 
+        },
+        { label: 'ASKING AHMED HOW HIS DAY IS GOING', initial: '...', final: '"not bad"', pauseAfter: 300 },
+        { 
+          label: 'CHECKING IF VISITOR IS COOL', 
+          initial: '...', 
+          final: 'PROBABLY', 
+          swapTo: 'VERIFIED ✓',
+          swapDelay: 250,
+          pauseAfter: 250 
+        },
+        { label: 'ACCESS GRANTED — WELCOME.', isSingle: true, pauseAfter: 500 }
+      ];
+
+      function dots(count) {
+        return '.'.repeat(Math.max(3, count));
+      }
+
+      let stepIndex = 0;
+
+      function typeCharByChar(text, element, speed, callback) {
+        let i = 0;
+        const timer = setInterval(() => {
+          element.textContent += text.charAt(i);
+          i++;
+          if (i >= text.length) {
+            clearInterval(timer);
+            if (callback) callback();
+          }
+        }, speed);
+      }
+
+      function runNextStep() {
+        if (stepIndex >= scriptSteps.length) {
+          // Finished boot
+          setTimeout(() => {
+            bootScreen.style.opacity = '0';
+            document.body.style.overflow = '';
+            sessionStorage.setItem('boot_complete', 'true');
+            setTimeout(() => {
+              bootScreen.style.display = 'none';
+            }, 650);
+          }, 500);
+          return;
+        }
+
+        const step = scriptSteps[stepIndex];
+        stepIndex++;
+
+        const lineEl = document.createElement('div');
+        lineEl.className = 'boot-line';
+        bootTerminal.appendChild(lineEl);
+
+        if (step.isSingle) {
+          const highlightEl = document.createElement('span');
+          highlightEl.className = 'boot-highlight';
+          lineEl.appendChild(highlightEl);
+          typeCharByChar(step.label, highlightEl, 14, () => {
+            setTimeout(runNextStep, step.pauseAfter);
+          });
+          return;
+        }
+
+        const labelSpan = document.createElement('span');
+        labelSpan.className = 'boot-label';
+        lineEl.appendChild(labelSpan);
+
+        const targetLength = window.innerWidth < 480 ? 28 : 38;
+        const padDots = dots(targetLength - step.label.length);
+
+        typeCharByChar(step.label + padDots + ' ', labelSpan, 12, () => {
+          const statusSpan = document.createElement('span');
+          statusSpan.className = 'boot-status';
+          lineEl.appendChild(statusSpan);
+
+          statusSpan.textContent = step.final;
+
+          if (step.swapTo) {
+            setTimeout(() => {
+              statusSpan.textContent = step.swapTo;
+              setTimeout(runNextStep, step.pauseAfter);
+            }, step.swapDelay);
+          } else {
+            setTimeout(runNextStep, step.pauseAfter);
+          }
+        });
+      }
+
+      runNextStep();
+    })();
+
+    /* ========================================================
+       2. FEATURE 2: SCRAMBLE-DECODE TEXT ON SCROLL
+       ======================================================== */
+    (function initScrambleText() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*';
+      const targets = document.querySelectorAll('.section-title, .silver-gradient, .hero-sub');
+
+      function scrambleElement(el) {
+        const originalText = el.getAttribute('data-original-text') || el.textContent.trim();
+        el.setAttribute('data-original-text', originalText);
+        
+        let iteration = 0;
+        const totalIterations = 14;
+        const intervalTime = 45;
+
+        const interval = setInterval(() => {
+          const revealedCount = Math.floor((iteration / totalIterations) * originalText.length);
+          let output = '';
+
+          for (let i = 0; i < originalText.length; i++) {
+            if (originalText[i] === ' ') {
+              output += ' ';
+            } else if (i < revealedCount) {
+              output += originalText[i];
+            } else {
+              output += chars[Math.floor(Math.random() * chars.length)];
+            }
+          }
+
+          el.textContent = output;
+          iteration++;
+
+          if (iteration > totalIterations) {
+            clearInterval(interval);
+            el.textContent = originalText;
+          }
+        }, intervalTime);
+      }
+
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            scrambleElement(entry.target);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.25 });
+
+      targets.forEach(target => {
+        target.setAttribute('data-original-text', target.textContent.trim());
+        observer.observe(target);
+      });
+    })();
+
+    /* ========================================================
+       3. FEATURE 3: THE SITE REMEMBERS YOU
+       ======================================================== */
+    (function initVisitorMemory() {
+      try {
+        const visits = localStorage.getItem('ahmed_visits');
+        const statusChipText = document.querySelector('.status-chip span:last-child');
+        
+        if (!visits) {
+          localStorage.setItem('ahmed_visits', '1');
+          localStorage.setItem('ahmed_first_visit', Date.now().toString());
+        } else {
+          const nextCount = parseInt(visits, 10) + 1;
+          localStorage.setItem('ahmed_visits', nextCount.toString());
+          if (statusChipText) {
+            statusChipText.textContent = 'WELCOME BACK // CONNECTION RE-ESTABLISHED';
+          }
+        }
+      } catch (e) {}
+    })();
+
+    /* ========================================================
+       4. FEATURE 6: ROTATING QUOTES ON EVERY VISIT
+       ======================================================== */
+    (function initRotatingQuotes() {
+      const heroLines = [
+        "Driven by first-principles problem solving. Focused on building algorithmic tools, exploring intelligent systems, and turning ambitious engineering ideas into reality.",
+        "I don't build what's easy. I build what I believe needs to exist — then I make it work.",
+        "Engineering is not a career choice. It's a way of seeing the world — every system can be understood, every problem can be decomposed.",
+        "Building things at 2am that nobody asked for, because I believe they'll matter.",
+        "Discipline from the court, strategy from the board, execution from the terminal.",
+        "The gap between an idea and a working system is where I live."
+      ];
+
+      const heroDesc = document.querySelector('.hero-desc');
+      if (heroDesc) {
+        const randomQuote = heroLines[Math.floor(Math.random() * heroLines.length)];
+        heroDesc.textContent = randomQuote;
+      }
+    })();
+
+    /* ========================================================
+       5. FEATURE 5: GLITCH TRANSITION ON SECTION ENTRY
+       ======================================================== */
+    (function initGlitchTransitions() {
+      const glitchOverlay = document.getElementById('glitch-overlay');
+      if (!glitchOverlay) return;
+
+      const visitedSections = new Set();
+      const sections = document.querySelectorAll('section');
+
+      const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !visitedSections.has(entry.target)) {
+            visitedSections.add(entry.target);
+            glitchOverlay.classList.remove('glitch-active');
+            void glitchOverlay.offsetWidth; // Trigger reflow
+            glitchOverlay.classList.add('glitch-active');
+            setTimeout(() => {
+              glitchOverlay.classList.remove('glitch-active');
+            }, 180);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      sections.forEach(s => sectionObserver.observe(s));
+    })();
+
+    /* ========================================================
+       6. FEATURE 8: CUSTOM CURSOR (DESKTOP ONLY)
+       ======================================================== */
+    (function initCustomCursor() {
+      const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.matchMedia('(pointer: coarse)').matches;
+      if (isTouch) return; // Completely disabled on mobile / touch
+
+      const dot = document.createElement('div');
+      dot.className = 'custom-cursor-dot';
+      const ring = document.createElement('div');
+      ring.className = 'custom-cursor-ring';
+
+      document.body.appendChild(dot);
+      document.body.appendChild(ring);
+
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let ringX = mouseX;
+      let ringY = mouseY;
+      let isVisible = false;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        if (!isVisible) {
+          isVisible = true;
+          dot.style.opacity = '1';
+          ring.style.opacity = '1';
+        }
+        dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+      }, { passive: true });
+
+      document.addEventListener('mouseleave', () => {
+        dot.style.opacity = '0';
+        ring.style.opacity = '0';
+        isVisible = false;
+      });
+
+      document.addEventListener('mouseenter', () => {
+        dot.style.opacity = '1';
+        ring.style.opacity = '1';
+        isVisible = true;
+      });
+
+      // Hover reaction on interactables
+      const interactables = document.querySelectorAll('a, button, .project-card, .skill-pill, .about-card, .stat-card');
+      interactables.forEach(item => {
+        item.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+        item.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
+      });
+
+      function animateRing() {
+        ringX += (mouseX - ringX) * 0.18;
+        ringY += (mouseY - ringY) * 0.18;
+        ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+        requestAnimationFrame(animateRing);
+      }
+      animateRing();
+    })();
+
   </script>
 </body>
 </html>

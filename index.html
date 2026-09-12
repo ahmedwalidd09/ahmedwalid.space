@@ -1804,9 +1804,13 @@
 
       const skipBtn = document.getElementById('boot-skip-btn');
       if (skipBtn) skipBtn.addEventListener('click', skipBoot);
-      bootScreen.addEventListener('click', (e) => {
-        if (e.target !== bootTerminal && !bootTerminal.contains(e.target)) skipBoot();
-      });
+      // Only skip if the explicit skip button is clicked
+      if (skipBtn) {
+        skipBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          skipBoot();
+        });
+      }
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && bootScreen.style.display !== 'none') skipBoot();
       });

@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<!--
+  ┌─────────────────────────────────────────────┐
+  │  AHMED WALID // PERSONAL SITE               │
+  │  build: 2026.09.12 // cairo, egypt          │
+  │  operator: future engineer                  │
+  │  status: building things that don't exist.  │
+  └─────────────────────────────────────────────┘
+-->
+<!--
+  ┌─────────────────────────────────────────────┐
+  │  AHMED WALID // PERSONAL SITE               │
+  │  build: 2026.09.12 // cairo, egypt          │
+  │  operator: future engineer                  │
+  │  status: building things that don't exist.  │
+  └─────────────────────────────────────────────┘
+-->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -825,7 +841,168 @@
       border-color: rgba(255, 255, 255, 0.65);
       background: rgba(255, 255, 255, 0.03);
     }
+
+    /* Invisible Ink */
+    .invisible-ink-wrap {
+      padding: 36px 0;
+      cursor: default;
+      position: relative;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .invisible-ink-inner {
+      text-align: center;
+      padding: 32px 24px;
+      border: 1px solid rgba(255, 255, 255, 0.0);
+      border-radius: 12px;
+      transition: border-color 0.5s ease;
+      position: relative;
+    }
+    .invisible-ink-wrap:hover .invisible-ink-inner,
+    .invisible-ink-wrap.revealed .invisible-ink-inner {
+      border-color: rgba(255, 255, 255, 0.06);
+    }
+    .invisible-ink-hint {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.0);
+      margin-bottom: 20px;
+      transition: color 0.5s ease;
+    }
+    .invisible-ink-wrap:hover .invisible-ink-hint,
+    .invisible-ink-wrap.revealed .invisible-ink-hint {
+      color: rgba(255, 255, 255, 0.18);
+    }
+    .invisible-ink-quote {
+      font-family: var(--font-sans);
+      font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+      font-weight: 500;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.0);
+      transition: color 0.6s ease 0.1s;
+      font-style: normal;
+      border: none;
+      padding: 0;
+      margin: 0 auto;
+      max-width: 640px;
+    }
+    .invisible-ink-wrap:hover .invisible-ink-quote,
+    .invisible-ink-wrap.revealed .invisible-ink-quote {
+      color: rgba(255, 255, 255, 0.82);
+    }
+    .invisible-ink-cite {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.0);
+      margin-top: 16px;
+      letter-spacing: 0.06em;
+      transition: color 0.6s ease 0.2s;
+    }
+    .invisible-ink-wrap:hover .invisible-ink-cite,
+    .invisible-ink-wrap.revealed .invisible-ink-cite {
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    /* 3D Depth Parallax */
+    .about-card,
+    .project-card,
+    .stat-card,
+    .contact-card {
+      transform-style: preserve-3d;
+      transform: perspective(800px) rotateX(0deg) rotateY(0deg);
+      transition: transform 0.08s linear, box-shadow 0.08s linear;
+      will-change: transform;
+    }
+    .about-card:hover,
+    .project-card:hover {
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55);
+    }
+
+    /* Invisible Ink */
+    .invisible-ink-wrap {
+      padding: 36px 0;
+      cursor: default;
+      position: relative;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .invisible-ink-inner {
+      text-align: center;
+      padding: 32px 24px;
+      border: 1px solid rgba(255, 255, 255, 0.0);
+      border-radius: 12px;
+      transition: border-color 0.5s ease;
+      position: relative;
+    }
+    .invisible-ink-wrap:hover .invisible-ink-inner,
+    .invisible-ink-wrap.revealed .invisible-ink-inner {
+      border-color: rgba(255, 255, 255, 0.06);
+    }
+    .invisible-ink-hint {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.0);
+      margin-bottom: 20px;
+      transition: color 0.5s ease;
+    }
+    .invisible-ink-wrap:hover .invisible-ink-hint,
+    .invisible-ink-wrap.revealed .invisible-ink-hint {
+      color: rgba(255, 255, 255, 0.18);
+    }
+    .invisible-ink-quote {
+      font-family: var(--font-sans);
+      font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+      font-weight: 500;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.0);
+      transition: color 0.6s ease 0.1s;
+      font-style: normal;
+      border: none;
+      padding: 0;
+      margin: 0 auto;
+      max-width: 640px;
+    }
+    .invisible-ink-wrap:hover .invisible-ink-quote,
+    .invisible-ink-wrap.revealed .invisible-ink-quote {
+      color: rgba(255, 255, 255, 0.82);
+    }
+    .invisible-ink-cite {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.0);
+      margin-top: 16px;
+      letter-spacing: 0.06em;
+      transition: color 0.6s ease 0.2s;
+    }
+    .invisible-ink-wrap:hover .invisible-ink-cite,
+    .invisible-ink-wrap.revealed .invisible-ink-cite {
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    /* 3D Depth Parallax */
+    .about-card,
+    .project-card,
+    .stat-card,
+    .contact-card {
+      transform-style: preserve-3d;
+      transform: perspective(800px) rotateX(0deg) rotateY(0deg);
+      transition: transform 0.08s linear, box-shadow 0.08s linear;
+      will-change: transform;
+    }
+    .about-card:hover,
+    .project-card:hover {
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55);
+    }
   </style>
+<!--
+  if you got this far in the source,
+  you're the kind of person i'd actually want to talk to.
+  reach out: ahmedwalidd09@gmail.com
+-->
 </head>
 <body>
   <!-- System Boot Sequence Overlay -->
@@ -839,6 +1016,16 @@
   <canvas id="ambient-canvas"></canvas>
   <div class="vignette"></div>
 
+  <!--
+    KERNEL v2.4.1
+    modules loaded: ambition, curiosity, stubbornness
+    warning: system has been running since 2am
+  -->
+  <!--
+    KERNEL v2.4.1
+    modules loaded: ambition, curiosity, stubbornness
+    warning: system has been running since 2am
+  -->
   <nav class="navbar">
     <div class="container nav-inner">
       <a href="#" class="brand">
@@ -907,6 +1094,14 @@
     </div>
   </header>
 
+  <!--
+    who am i? honestly still figuring it out.
+    but i know i build things. that counts.
+  -->
+  <!--
+    who am i? honestly still figuring it out.
+    but i know i build things. that counts.
+  -->
   <section id="about">
     <div class="container">
       <div class="section-header">
@@ -949,6 +1144,24 @@
     </div>
   </section>
 
+  <div class="invisible-ink-wrap" id="invisible-ink">
+    <div class="container">
+      <div class="invisible-ink-inner">
+        <div class="invisible-ink-hint">[ touch to reveal ]</div>
+        <blockquote class="invisible-ink-quote">
+          "The most dangerous engineer is the one<br>
+          who doesn't know yet what they're capable of."
+        </blockquote>
+        <cite class="invisible-ink-cite">— A.W.</cite>
+      </div>
+    </div>
+  </div>
+
+  <!--
+    the projects section. this is where it gets real.
+    none of these were assigned. none of these were required.
+    built them because i had to.
+  -->
   <section id="projects">
     <div class="container">
       <div class="section-header">
@@ -1549,6 +1762,114 @@
       animateRing();
     })();
 
+    /* ========================================================
+       FEATURE: INVISIBLE INK (Mobile Tap Support)
+       ======================================================== */
+    (function initInvisibleInk() {
+      const inkWrap = document.getElementById('invisible-ink');
+      if (!inkWrap) return;
+
+      // Mobile: toggle revealed class on tap
+      inkWrap.addEventListener('touchstart', () => {
+        inkWrap.classList.toggle('revealed');
+      }, { passive: true });
+
+      // Desktop hover is handled by CSS :hover — no JS needed
+      // But reset revealed state when mouse leaves on desktop
+      inkWrap.addEventListener('mouseleave', () => {
+        inkWrap.classList.remove('revealed');
+      });
+    })();
+
+    /* ========================================================
+       FEATURE: 3D DEPTH PARALLAX (Mouse + Gyroscope)
+       ======================================================== */
+    (function init3DDepth() {
+      const TILT_MAX = 10; // max degrees of tilt
+      const cards = document.querySelectorAll('.about-card, .project-card, .stat-card, .contact-card');
+      
+      if (cards.length === 0) return;
+
+      const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.matchMedia('(pointer: coarse)').matches;
+
+      /* --- DESKTOP: Mouse-based tilt --- */
+      if (!isTouch) {
+        cards.forEach(card => {
+          card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const dx = (e.clientX - cx) / (rect.width / 2);   // -1 to 1
+            const dy = (e.clientY - cy) / (rect.height / 2);  // -1 to 1
+            const rotY = dx * TILT_MAX;
+            const rotX = -dy * TILT_MAX;
+            card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+          });
+
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
+          });
+        });
+      }
+
+      /* --- MOBILE: Gyroscope-based tilt --- */
+      if (isTouch && typeof DeviceOrientationEvent !== 'undefined') {
+        function startGyroscope() {
+          let baseAlpha = null;
+          let baseBeta = null;
+
+          window.addEventListener('deviceorientation', (e) => {
+            if (baseAlpha === null) baseAlpha = e.gamma || 0; // left-right tilt
+            if (baseBeta === null) baseBeta = e.beta || 0;    // front-back tilt
+
+            const dx = Math.max(-1, Math.min(1, (e.gamma - baseAlpha) / 25));
+            const dy = Math.max(-1, Math.min(1, (e.beta - baseBeta) / 25));
+
+            const rotY = dx * (TILT_MAX * 0.6); // slightly less aggressive on mobile
+            const rotX = -dy * (TILT_MAX * 0.6);
+
+            cards.forEach(card => {
+              card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+            });
+          }, { passive: true });
+        }
+
+        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+          let permissionRequested = false;
+          window.addEventListener('touchstart', function requestPerm() {
+            if (permissionRequested) return;
+            permissionRequested = true;
+            DeviceOrientationEvent.requestPermission()
+              .then(state => {
+                if (state === 'granted') startGyroscope();
+              })
+              .catch(() => {});
+            window.removeEventListener('touchstart', requestPerm);
+          }, { passive: true, once: true });
+        } else {
+          startGyroscope();
+        }
+      }
+    })();
+
   </script>
+  <!--
+    you made it to the bottom of the source.
+    respect.
+    
+    "the gap between an idea and a working system
+     is where i live." — AW
+    
+    × end of transmission ×
+  -->
+  <!--
+    you made it to the bottom of the source.
+    respect.
+    
+    "the gap between an idea and a working system
+     is where i live." — AW
+    
+    × end of transmission ×
+  -->
 </body>
 </html>

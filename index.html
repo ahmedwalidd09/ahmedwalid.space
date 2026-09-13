@@ -29,6 +29,75 @@
         for (var name of names) caches.delete(name);
       });
     }
+
+    /* ========================================================
+       FEATURE: NOW, WHO ARE YOU? FORM HANDLER
+       ======================================================== */
+    (function initTransmitForm() {
+      const form = document.getElementById('transmit-form');
+      const msgInput = document.getElementById('transmit-message');
+      const senderInput = document.getElementById('transmit-sender');
+      const counter = document.getElementById('transmit-counter');
+      const btn = document.getElementById('transmit-btn');
+      const status = document.getElementById('transmit-status');
+      if (!form || !msgInput || !btn || !status) return;
+
+      msgInput.addEventListener('input', () => {
+        const len = msgInput.value.length;
+        counter.textContent = `${len} / 1500`;
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const message = msgInput.value.trim();
+        const sender = senderInput ? senderInput.value.trim() : '';
+        const hp = form.elements['hp'] ? form.elements['hp'].value : '';
+
+        if (!message) return;
+
+        btn.disabled = true;
+        btn.innerHTML = '<span>Transmitting...</span>';
+        status.className = 'transmit-status';
+        status.style.display = 'none';
+
+        try {
+          const res = await fetch('/api/send-message', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message, sender, hp })
+          });
+
+          const data = await res.json();
+          if (res.ok && data.success) {
+            msgInput.value = '';
+            if (senderInput) senderInput.value = '';
+            counter.textContent = '0 / 1500';
+            btn.innerHTML = '<span>Delivered ✓</span>';
+            status.className = 'transmit-status success';
+            status.innerHTML = '[ TRANSMISSION DELIVERED // DIRECT TO AHMED\'S PHONE ✓ ]';
+            status.style.display = 'block';
+
+            if (navigator.vibrate) {
+              try { navigator.vibrate([15, 50, 15]); } catch(e) {}
+            }
+
+            setTimeout(() => {
+              btn.disabled = false;
+              btn.innerHTML = '<span>Transmit to Ahmed</span><span>&rarr;</span>';
+            }, 4000);
+          } else {
+            throw new Error(data.error || 'Transmission failed.');
+          }
+        } catch (err) {
+          btn.disabled = false;
+          btn.innerHTML = '<span>Transmit to Ahmed</span><span>&rarr;</span>';
+          status.className = 'transmit-status error';
+          status.textContent = `Error: ${err.message || 'Could not send message. Please try again or email directly.'}`;
+          status.style.display = 'block';
+        }
+      });
+    })();
+
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1303,6 +1372,154 @@
     @media (prefers-reduced-motion: reduce) {
       .custom-cursor-dot, .custom-cursor-ring { display: none !important; }
     }
+
+    /* ========================================================
+       FEATURE: NOW, WHO ARE YOU? SECTION
+       ======================================================== */
+    #who-are-you {
+      padding: 100px 0;
+      position: relative;
+    }
+    .transmit-box {
+      max-width: 680px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 36px 32px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
+    }
+    .transmit-box:focus-within {
+      border-color: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+    }
+    .transmit-header {
+      margin-bottom: 24px;
+    }
+    .transmit-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--accent-silver);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .transmit-title {
+      font-size: clamp(1.4rem, 3vw, 1.85rem);
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+    .transmit-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .transmit-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .transmit-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .transmit-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+    }
+    .transmit-input,
+    .transmit-textarea {
+      width: 100%;
+      background: rgba(3, 3, 5, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: #ffffff;
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+      box-sizing: border-box;
+    }
+    .transmit-input:focus,
+    .transmit-textarea:focus {
+      border-color: rgba(255, 255, 255, 0.3);
+      background: rgba(3, 3, 5, 0.85);
+    }
+    .transmit-textarea {
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+    .transmit-input::placeholder,
+    .transmit-textarea::placeholder {
+      color: #3f3f46;
+    }
+    .transmit-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .transmit-counter {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+    .transmit-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: #ffffff;
+      color: #030305;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .transmit-btn:hover {
+      background: #e4e4e7;
+      transform: translateY(-1px);
+    }
+    .transmit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .transmit-status {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      margin-top: 14px;
+      display: none;
+      padding: 10px 14px;
+      border-radius: 6px;
+    }
+    .transmit-status.success {
+      display: block;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .transmit-status.error {
+      display: block;
+      color: #fca5a5;
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
   </style>
 <!--
   if you got this far in the source,
@@ -1350,6 +1567,7 @@
         <li><a href="#projects">In The Making</a></li>
         <li><a href="#terminal">Terminal</a></li>
         <li><a href="#toolkit">Toolkit</a></li>
+        <li><a href="#who-are-you">Who Are You</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
       <a href="#contact" class="nav-btn">Get In Touch &rarr;</a>
@@ -1621,6 +1839,47 @@
             <span class="skill-pill">Cloud Deployment</span>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="who-are-you">
+    <div class="container">
+      <div class="transmit-box">
+        <div class="transmit-header">
+          <div class="transmit-kicker">[ 04 // REVERSE HANDSHAKE ]</div>
+          <h2 class="transmit-title">Now, Who Are You?</h2>
+          <p class="transmit-desc">
+            I told you who I am. Your turn. Leave a thought, an ambitious idea, a critique, or just say hello. 
+            Your message transmits directly to my Telegram.
+          </p>
+        </div>
+
+        <form class="transmit-form" id="transmit-form">
+          <!-- Honeypot -->
+          <input type="text" name="hp" style="display:none" tabindex="-1" autocomplete="off">
+
+          <div class="transmit-field">
+            <label class="transmit-label" for="transmit-sender">// YOUR NAME, HANDLE, OR EMAIL (OPTIONAL)</label>
+            <input type="text" id="transmit-sender" class="transmit-input" placeholder="e.g. Alex (@alex_builds) or alex@domain.com" maxlength="100">
+          </div>
+
+          <div class="transmit-field">
+            <label class="transmit-label" for="transmit-message">// YOUR TRANSMISSION</label>
+            <textarea id="transmit-message" class="transmit-textarea" placeholder="What are you building? What's on your mind? Drop anything..." required maxlength="1500"></textarea>
+          </div>
+
+          <div class="transmit-actions">
+            <span class="transmit-counter" id="transmit-counter">0 / 1500</span>
+            <button type="submit" class="transmit-btn" id="transmit-btn">
+              <span>Transmit to Ahmed</span>
+              <span>&rarr;</span>
+            </button>
+          </div>
+
+          <div class="transmit-status" id="transmit-status"></div>
+        </form>
       </div>
     </div>
   </section>
@@ -2386,6 +2645,7 @@
         { label: 'Go to Terminal', hint: 'T', action: () => { document.querySelector('#terminal')?.scrollIntoView({ behavior: 'smooth' }); }},
         { label: 'Go to Contact', hint: 'C', action: () => { document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' }); }},
         { label: 'Go to Who Am I', hint: 'W', action: () => { document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' }); }},
+        { label: 'Go to Who Are You (Transmit)', hint: 'Y', action: () => { document.querySelector('#who-are-you')?.scrollIntoView({ behavior: 'smooth' }); }},
         { label: 'Go to Toolkit', hint: 'K', action: () => { document.querySelector('#toolkit')?.scrollIntoView({ behavior: 'smooth' }); }},
         { label: 'Copy Email', hint: 'email', action: () => { copyEmail(); }},
         { label: 'Open GitHub', hint: 'github', action: () => { window.open('https://github.com/ahmedwalidd09', '_blank'); }},
@@ -2531,6 +2791,75 @@
         }
       }, 50);
     });
+
+
+    /* ========================================================
+       FEATURE: NOW, WHO ARE YOU? FORM HANDLER
+       ======================================================== */
+    (function initTransmitForm() {
+      const form = document.getElementById('transmit-form');
+      const msgInput = document.getElementById('transmit-message');
+      const senderInput = document.getElementById('transmit-sender');
+      const counter = document.getElementById('transmit-counter');
+      const btn = document.getElementById('transmit-btn');
+      const status = document.getElementById('transmit-status');
+      if (!form || !msgInput || !btn || !status) return;
+
+      msgInput.addEventListener('input', () => {
+        const len = msgInput.value.length;
+        counter.textContent = `${len} / 1500`;
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const message = msgInput.value.trim();
+        const sender = senderInput ? senderInput.value.trim() : '';
+        const hp = form.elements['hp'] ? form.elements['hp'].value : '';
+
+        if (!message) return;
+
+        btn.disabled = true;
+        btn.innerHTML = '<span>Transmitting...</span>';
+        status.className = 'transmit-status';
+        status.style.display = 'none';
+
+        try {
+          const res = await fetch('/api/send-message', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message, sender, hp })
+          });
+
+          const data = await res.json();
+          if (res.ok && data.success) {
+            msgInput.value = '';
+            if (senderInput) senderInput.value = '';
+            counter.textContent = '0 / 1500';
+            btn.innerHTML = '<span>Delivered ✓</span>';
+            status.className = 'transmit-status success';
+            status.innerHTML = '[ TRANSMISSION DELIVERED // DIRECT TO AHMED\'S PHONE ✓ ]';
+            status.style.display = 'block';
+
+            if (navigator.vibrate) {
+              try { navigator.vibrate([15, 50, 15]); } catch(e) {}
+            }
+
+            setTimeout(() => {
+              btn.disabled = false;
+              btn.innerHTML = '<span>Transmit to Ahmed</span><span>&rarr;</span>';
+            }, 4000);
+          } else {
+            throw new Error(data.error || 'Transmission failed.');
+          }
+        } catch (err) {
+          btn.disabled = false;
+          btn.innerHTML = '<span>Transmit to Ahmed</span><span>&rarr;</span>';
+          status.className = 'transmit-status error';
+          status.textContent = `Error: ${err.message || 'Could not send message. Please try again or email directly.'}`;
+          status.style.display = 'block';
+        }
+      });
+    })();
 
   </script>
   <!--

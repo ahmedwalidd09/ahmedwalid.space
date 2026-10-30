@@ -30,75 +30,7 @@
       });
     }
 
-    /* ========================================================
-       FEATURE: NOW, WHO ARE YOU? FORM HANDLER
-       ======================================================== */
-    (function initTransmitForm() {
-      const form = document.getElementById('transmit-form');
-      const msgInput = document.getElementById('transmit-message');
-      const senderInput = document.getElementById('transmit-sender');
-      const counter = document.getElementById('transmit-counter');
-      const btn = document.getElementById('transmit-btn');
-      const status = document.getElementById('transmit-status');
-      if (!form || !msgInput || !btn || !status) return;
-
-      msgInput.addEventListener('input', () => {
-        const len = msgInput.value.length;
-        counter.textContent = `${len} / 1500`;
-      });
-
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const message = msgInput.value.trim();
-        const sender = senderInput ? senderInput.value.trim() : '';
-        const hp = form.elements['hp'] ? form.elements['hp'].value : '';
-
-        if (!message) return;
-
-        btn.disabled = true;
-        btn.innerHTML = '<span>Transmitting...</span>';
-        status.className = 'transmit-status';
-        status.style.display = 'none';
-
-        try {
-          const res = await fetch('/api/send-message', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message, sender, hp })
-          });
-
-          const data = await res.json();
-          if (res.ok && data.success) {
-            msgInput.value = '';
-            if (senderInput) senderInput.value = '';
-            counter.textContent = '0 / 1500';
-            btn.innerHTML = '<span>Delivered ✓</span>';
-            status.className = 'transmit-status success';
-            status.innerHTML = '[ TRANSMISSION DELIVERED // DIRECT TO AHMED\'S PHONE ✓ ]';
-            status.style.display = 'block';
-
-            if (navigator.vibrate) {
-              try { navigator.vibrate([15, 50, 15]); } catch(e) {}
-            }
-
-            setTimeout(() => {
-              btn.disabled = false;
-              btn.innerHTML = '<span>Transmit to Ahmed</span><span>&rarr;</span>';
-            }, 4000);
-          } else {
-            throw new Error(data.error || 'Transmission failed.');
-          }
-        } catch (err) {
-          btn.disabled = false;
-          btn.innerHTML = '<span>Transmit to Ahmed</span><span>&rarr;</span>';
-          status.className = 'transmit-status error';
-          status.textContent = `Error: ${err.message || 'Could not send message. Please try again or email directly.'}`;
-          status.style.display = 'block';
-        }
-      });
-    })();
-
-  </script>
+</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -107,7 +39,7 @@
   <title>Ahmed Walid // Future Engineer</title>
   <meta name="description" content="Ahmed Walid — Future Engineer. Developing Praecursor-EGX and exploring systems, intelligence, and software.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23030305'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23a1a1aa' font-family='monospace' font-size='13' font-weight='bold'>AW</text></svg>">
-  
+
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ahmedwalid.space">
@@ -153,7 +85,7 @@
       font-family: var(--font-sans);
       overflow-x: hidden;
       line-height: 1.6;
-      background-image: 
+      background-image:
         linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
       background-size: 40px 40px;
@@ -1526,8 +1458,10 @@
   you're the kind of person i'd actually want to talk to.
   reach out: ahmedwalidd09@gmail.com
 -->
+  <link rel="stylesheet" href="/studio.css">
 </head>
 <body>
+  <a class="skip-link" href="#about">Skip to content</a>
   <!-- Feature 10: Film Grain Texture -->
   <div class="grain-overlay"></div>
 
@@ -1535,7 +1469,7 @@
   <div id="dimension-label">[ DIMENSION SHIFT // ACTIVE ]</div>
   <!-- System Boot Sequence Overlay -->
   <div id="boot-screen">
-    <div style="position: absolute; top: 20px; right: 20px; font-family: var(--font-mono); font-size: 0.72rem; color: #71717a; border: 1px solid rgba(255,255,255,0.12); padding: 4px 10px; border-radius: 4px; cursor: pointer;" id="boot-skip-btn">[ ESC / Tap to skip ]</div>
+    <button type="button" id="boot-skip-btn">ESC / Skip intro</button>
     <div class="boot-inner" id="boot-terminal"></div>
   </div>
 
@@ -1562,7 +1496,8 @@
         <span class="brand-logo">AHMED WALID</span>
         <span class="brand-tag">// FUTURE ENGINEER</span>
       </a>
-      <ul class="nav-links">
+      <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu +</button>
+      <ul class="nav-links" id="site-nav">
         <li><a href="#about">Who Am I</a></li>
         <li><a href="#projects">In The Making</a></li>
         <li><a href="#terminal">Terminal</a></li>
@@ -1576,20 +1511,16 @@
 
   <header class="hero">
     <div class="container">
-      <div class="status-chip">
+      <div class="hero-topline"><div class="status-chip">
         <div class="pulse-dot"></div>
         <span>IN THE LAB // BUILDING &amp; LEARNING</span>
-      </div>
-
-      <h1>
-        Ahmed Walid <br>
-        <span class="silver-gradient">Future Engineer.</span>
-      </h1>
+      </div><span class="hero-location">BASED IN CAIRO, EGYPT / 30.04° N</span></div>
+<div class="hero-layout"><div class="hero-copy"><h1>Ahmed<span class="surname">Walid.</span><span class="silver-gradient">Future Engineer.</span></h1>
 
       <div class="hero-sub">// SYSTEMS, ALGORITHMS &amp; PRACTICAL SOFTWARE</div>
 
       <p class="hero-desc">
-        Driven by first-principles problem solving. Focused on building algorithmic tools, exploring intelligent systems, 
+        Driven by first-principles problem solving. Focused on building algorithmic tools, exploring intelligent systems,
         and turning ambitious engineering ideas into reality.
       </p>
 
@@ -1603,6 +1534,8 @@
         </a>
       </div>
 
+</div><div class="orbital" aria-hidden="true"><div class="orbital-halo"></div><span class="orbital-label top">FIG. 01 / SYSTEMS IN MOTION</span><svg viewBox="0 0 600 600" fill="none" aria-hidden="true"><defs><radialGradient id="sphereShade"><stop stop-color="#202029" stop-opacity=".2"/><stop offset="1" stop-color="#030305" stop-opacity=".1"/></radialGradient></defs><path d="M40 300H560M300 40V560" stroke="#c4c4d0" stroke-opacity=".1" stroke-dasharray="3 8"/><circle cx="300" cy="300" r="226" stroke="#b8b8c5" stroke-opacity=".12"/><circle cx="300" cy="300" r="198" fill="url(#sphereShade)" stroke="#b8b8c5" stroke-opacity=".5"/><g transform="rotate(-25 300 300)" stroke="#b8b8c5" stroke-opacity=".32"><ellipse cx="300" cy="300" rx="38" ry="198"/><ellipse cx="300" cy="300" rx="78" ry="198"/><ellipse cx="300" cy="300" rx="116" ry="198"/><ellipse cx="300" cy="300" rx="151" ry="198"/><ellipse cx="300" cy="300" rx="179" ry="198"/><ellipse cx="300" cy="150" rx="129.24395537122808" ry="29.72610973538246"/><ellipse cx="300" cy="195" rx="167.8660180024534" ry="38.60918414056428"/><ellipse cx="300" cy="245" rx="190.2077811236964" ry="43.74778965845017"/><ellipse cx="300" cy="300" rx="198" ry="45.54"/><ellipse cx="300" cy="355" rx="190.2077811236964" ry="43.74778965845017"/><ellipse cx="300" cy="405" rx="167.8660180024534" ry="38.60918414056428"/><ellipse cx="300" cy="450" rx="129.24395537122808" ry="29.72610973538246"/></g><g class="orbit-motion"><ellipse cx="300" cy="300" rx="277" ry="91" transform="rotate(-31 300 300)" stroke="#e4e4e7" stroke-opacity=".65"/><circle cx="531" cy="159" r="5" fill="#e4e4e7"/><circle cx="531" cy="159" r="13" stroke="#e4e4e7" stroke-opacity=".25"/></g><path d="M95 95h13m-6-6v13M496 500h13m-6-6v13" stroke="#a1a1aa"/><text x="319" y="53" fill="#93939f" font-size="9" font-family="monospace">Y</text><text x="551" y="320" fill="#93939f" font-size="9" font-family="monospace">X</text></svg><span class="orbital-label bottom">CURIOSITY → LOGIC → CREATION<br>AN EXPLORATION, ALWAYS.</span></div></div>
+<div class="hero-footnote"><span>SCROLL TO EXPLORE ↓</span><button class="command-trigger" type="button">QUICK NAVIGATION <kbd>Ctrl K</kbd></button></div>
       <div class="stats-strip">
         <div class="stat-card">
           <div class="stat-num">ENGINEERING</div>
@@ -1638,7 +1571,7 @@
         <div class="section-kicker">Identity &amp; Origin</div>
         <h2 class="section-title">Who Am I?</h2>
         <p class="whoami-intro">
-          A future engineer shaped by 9 years on the competitive tennis court, hundreds of hours on the chessboard, 
+          A future engineer shaped by 9 years on the competitive tennis court, hundreds of hours on the chessboard,
           and a relentless drive to understand and build intelligent systems from first principles.
         </p>
       </div>
@@ -1648,7 +1581,7 @@
           <div class="about-kicker">[ 01 ] THE COMPETITOR</div>
           <h3 class="about-title">9 Years Competitive Tennis &bull; 2x National Titles</h3>
           <p class="about-desc">
-            Competed in high-level tennis for nine years, developing unwavering discipline, intense focus under pressure, 
+            Competed in high-level tennis for nine years, developing unwavering discipline, intense focus under pressure,
             and the resilience required to show up and perform every single day &mdash; securing two national tournament championships.
           </p>
         </div>
@@ -1657,7 +1590,7 @@
           <div class="about-kicker">[ 02 ] THE STRATEGIST</div>
           <h3 class="about-title">1400 Peak Chess.com Elo &bull; Tactical Foresight</h3>
           <p class="about-desc">
-            A passion for positional strategy, pattern recognition, and calculating moves ahead. Strategic decision-making 
+            A passion for positional strategy, pattern recognition, and calculating moves ahead. Strategic decision-making
             on the chessboard directly informs how I approach systems architecture, edge cases, and algorithmic logic.
           </p>
         </div>
@@ -1666,7 +1599,7 @@
           <div class="about-kicker">[ 03 ] THE BUILDER</div>
           <h3 class="about-title">Roots School &rarr; EBIS (Years 9&ndash;11) &rarr; Engineering</h3>
           <p class="about-desc">
-            Cultivated academic rigor at Roots School and British curriculum foundations (Years 9 to 11) 
+            Cultivated academic rigor at Roots School and British curriculum foundations (Years 9 to 11)
             at Egyptian British International School (EBIS) &mdash; translating structured problem-solving into real-world code and engineering projects.
           </p>
         </div>
@@ -1674,7 +1607,7 @@
     </div>
   </section>
 
-  <div class="invisible-ink-wrap" id="invisible-ink">
+  <div class="invisible-ink-wrap" id="invisible-ink" tabindex="0" role="button" aria-label="Reveal hidden quotation">
     <div class="container">
       <div class="invisible-ink-inner">
         <div class="invisible-ink-hint">[ touch to reveal ]</div>
@@ -1705,8 +1638,8 @@
             <span class="project-tag active">&bull; IN ACTIVE DEVELOPMENT</span>
             <h3 class="project-title">Praecursor-EGX</h3>
             <p class="project-desc">
-              An algorithmic market intelligence and screening platform for the Egyptian Stock Exchange (EGX). 
-              Engineered to scan daily price actions, compute technical signals, run machine learning models, 
+              An algorithmic market intelligence and screening platform for the Egyptian Stock Exchange (EGX).
+              Engineered to scan daily price actions, compute technical signals, run machine learning models,
               and generate automated market intelligence.
             </p>
             <div class="project-tech">
@@ -1717,6 +1650,7 @@
               <span class="tech-pill">Automation</span>
             </div>
           </div>
+<div class="project-visual" aria-hidden="true"><span class="plot-label">PRAECURSOR / SIGNAL STUDY</span><svg viewBox="0 0 400 180" preserveAspectRatio="none"><path d="M0 148 L23 135 43 151 66 117 88 126 106 91 130 111 155 101 174 119 199 75 223 82 247 48 269 63 293 39 315 58 339 19 359 31 382 12 400 20" fill="none" stroke="#e4e4e7" stroke-width="2"/><path d="M0 161C95 169 108 120 190 122S280 78 400 62" fill="none" stroke="#7b7b88" stroke-width="1.5" stroke-dasharray="5 5"/></svg><span class="plot-caption">CONCEPTUAL VISUAL / NOT LIVE MARKET DATA</span></div>
           <div class="repo-btn-wrap">
             <span class="coming-soon-chip">COMING SOON</span>
             <a href="javascript:void(0)" onclick="showPrivateNotice(event)" class="repo-action-btn" title="Repository is currently private">
@@ -1731,7 +1665,7 @@
             <span class="project-tag">&bull; FUTURE PROJECT // IN THE MAKING</span>
             <h3 class="project-title">Autonomous Engineering Tools</h3>
             <p class="project-desc">
-              Tools and workflows designed to leverage autonomous AI agents and computational pipelines 
+              Tools and workflows designed to leverage autonomous AI agents and computational pipelines
               to streamline prototyping, code analysis, and complex engineering tasks.
             </p>
             <div class="project-tech">
@@ -1751,7 +1685,7 @@
             <span class="project-tag">&bull; FUTURE EXPLORATION</span>
             <h3 class="project-title">Hardware &amp; Embedded Experiments</h3>
             <p class="project-desc">
-              Bridging software logic with the physical world &mdash; upcoming explorations into microcontrollers, 
+              Bridging software logic with the physical world &mdash; upcoming explorations into microcontrollers,
               sensor fusion, and robotics control systems.
             </p>
             <div class="project-tech">
@@ -1773,7 +1707,7 @@
     <div class="container">
       <div class="section-header">
         <div class="section-kicker">Live Environment</div>
-        <h2 class="section-title">Terminal Console</h2>
+        <h2 class="section-title">Under the<br>surface.</h2><p class="terminal-note">A few lines from the person behind the projects.</p>
       </div>
 
       <div class="terminal-wrap">
@@ -1781,7 +1715,7 @@
           <span class="term-btn term-close"></span>
           <span class="term-btn term-min"></span>
           <span class="term-btn term-max"></span>
-          <span class="term-title">ahmed@ahmedwalid-space: ~ (interactive shell)</span>
+          <span class="term-title">ahmed@ahmedwalid-space: ~ (profile console)</span>
         </div>
         <div class="term-body" id="terminal-body">
           <div class="term-line"><span class="prompt">ahmed@space:~$</span> whoami</div>
@@ -1851,7 +1785,7 @@
           <div class="transmit-kicker">[ 04 // REVERSE HANDSHAKE ]</div>
           <h2 class="transmit-title">Now, Who Are You?</h2>
           <p class="transmit-desc">
-            I told you who I am. Your turn. Leave a thought, an ambitious idea, a critique, or just say hello. 
+            I told you who I am. Your turn. Leave a thought, an ambitious idea, a critique, or just say hello.
             Your message transmits directly to my Telegram.
           </p>
         </div>
@@ -1878,7 +1812,7 @@
             </button>
           </div>
 
-          <div class="transmit-status" id="transmit-status"></div>
+          <div class="transmit-status" id="transmit-status" role="status" aria-live="polite"></div>
         </form>
       </div>
     </div>
@@ -1917,9 +1851,56 @@
     </div>
   </footer>
 
-  <div id="toast">Email copied to clipboard!</div>
+  <div id="toast" role="status" aria-live="polite">Email copied to clipboard!</div>
 
-  <script>
+
+  <!--
+    you made it to the bottom of the source.
+    respect.
+
+    "the gap between an idea and a working system
+     is where i live." — AW
+
+    hint: /nowhere
+    × end of transmission ×
+  -->
+  <!--
+    you made it to the bottom of the source.
+    respect.
+
+    "the gap between an idea and a working system
+     is where i live." — AW
+
+    hint: /nowhere
+    × end of transmission ×
+  -->
+
+  <!-- Feature 8: Keyboard Navigation Overlay -->
+  <div id="keyboard-overlay" role="dialog" aria-modal="true" aria-label="Keyboard navigation">
+    <div class="kb-card">
+      <div class="kb-title">Keyboard Navigation</div>
+      <div class="kb-row"><span class="kb-key">T</span><span class="kb-action">Terminal</span></div>
+      <div class="kb-row"><span class="kb-key">P</span><span class="kb-action">Projects</span></div>
+      <div class="kb-row"><span class="kb-key">C</span><span class="kb-action">Contact</span></div>
+      <div class="kb-row"><span class="kb-key">Ctrl+K</span><span class="kb-action">Command Palette</span></div>
+      <div class="kb-row"><span class="kb-key">ESC</span><span class="kb-action">Close</span></div>
+      <div class="kb-row"><span class="kb-key">↑↑↓↓←→←→BA</span><span class="kb-action kb-mystery">???</span></div>
+    </div>
+  </div>
+
+  <!-- Feature 17: Command Palette -->
+  <div id="command-palette" role="dialog" aria-modal="true" aria-label="Quick navigation">
+    <div class="cmd-card">
+      <div class="cmd-input-wrap">
+        <span class="cmd-icon">></span>
+        <input class="cmd-input" aria-label="Search commands" type="text" placeholder="Type a command..." autocomplete="off" spellcheck="false"><button type="button" class="cmd-close" aria-label="Close quick navigation">ESC</button>
+      </div>
+      <div class="cmd-results" id="cmd-results"></div>
+    </div>
+  </div>
+<script>
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     /* ========================================================
        FEATURE 1: CONSOLE.LOG ASCII ART
        ======================================================== */
@@ -2018,7 +1999,7 @@
 
     function animate() {
       ctx.clearRect(0, 0, width, height);
-      
+
       // Smooth lerp for scroll multiplier
       const targetMult = 1 + scrollSpeed;
       scrollMultiplier += (targetMult - scrollMultiplier) * 0.1;
@@ -2041,7 +2022,7 @@
           }
         }
       }
-      requestAnimationFrame(animate);
+      if (!reducedMotion) requestAnimationFrame(animate);
     }
     animate();
 
@@ -2053,6 +2034,7 @@
       const bootTerminal = document.getElementById('boot-terminal');
       if (!bootScreen || !bootTerminal) return;
 
+      if (reducedMotion) { bootScreen.style.display = 'none'; return; }
       document.body.style.overflow = 'hidden';
 
       function skipBoot() {
@@ -2078,27 +2060,27 @@
         { label: 'CONNECTING TO CAIRO', initial: '...', final: 'PING: 24ms', pauseAfter: 250 },
         { label: 'FINDING AHMED', initial: '...', final: 'AT HIS DESK (as usual)', pauseAfter: 250 },
         { label: 'ASKING HOW HIS DAY WAS GOING', initial: '...', final: '"not bad, can\'t complain"', pauseAfter: 300 },
-        { 
-          label: 'DID HE DRINK WATER TODAY?', 
-          initial: '...', 
-          final: 'DOUBTFUL', 
+        {
+          label: 'DID HE DRINK WATER TODAY?',
+          initial: '...',
+          final: 'DOUBTFUL',
           swapTo: '"working on it"',
           swapDelay: 400,
-          pauseAfter: 280 
+          pauseAfter: 280
         },
-        { 
-          label: 'ASKING AHMED FOR PERMISSION', 
-          initial: '...', 
-          final: 'HOLD ON', 
+        {
+          label: 'ASKING AHMED FOR PERMISSION',
+          initial: '...',
+          final: 'HOLD ON',
           swapTo: '"yeah, let them in"',
           swapDelay: 400,
-          pauseAfter: 300 
+          pauseAfter: 300
         },
-        { 
-          label: 'CHECKING VISITOR VIBES', 
-          initial: '...', 
-          final: 'VERIFIED COOL ✓', 
-          pauseAfter: 350 
+        {
+          label: 'CHECKING VISITOR VIBES',
+          initial: '...',
+          final: 'VERIFIED COOL ✓',
+          pauseAfter: 350
         },
         { label: "WELCOME TO AHMED'S SPACE.", isSingle: true, pauseAfter: 600 }
       ];
@@ -2179,13 +2161,14 @@
        2. FEATURE 2: SCRAMBLE-DECODE TEXT ON SCROLL
        ======================================================== */
     (function initScrambleText() {
+      if (reducedMotion) return;
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*';
       const targets = document.querySelectorAll('.section-title, .silver-gradient, .hero-sub');
 
       function scrambleElement(el) {
         const originalText = el.getAttribute('data-original-text') || el.textContent.trim();
         el.setAttribute('data-original-text', originalText);
-        
+
         let iteration = 0;
         const totalIterations = 14;
         const intervalTime = 45;
@@ -2236,7 +2219,7 @@
       try {
         const visits = localStorage.getItem('ahmed_visits');
         const statusChipText = document.querySelector('.status-chip span:last-child');
-        
+
         if (!visits) {
           localStorage.setItem('ahmed_visits', '1');
           localStorage.setItem('ahmed_first_visit', Date.now().toString());
@@ -2274,6 +2257,7 @@
        5. FEATURE 5: GLITCH TRANSITION ON SECTION ENTRY
        ======================================================== */
     (function initGlitchTransitions() {
+      if (reducedMotion) return;
       const glitchOverlay = document.getElementById('glitch-overlay');
       if (!glitchOverlay) return;
 
@@ -2301,6 +2285,7 @@
        6. FEATURE 8: CUSTOM CURSOR (DESKTOP ONLY)
        ======================================================== */
     (function initCustomCursor() {
+      return; // Preserve the native pointer for predictable mouse interaction.
       const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.matchMedia('(pointer: coarse)').matches;
       if (isTouch) return; // Completely disabled on mobile / touch
 
@@ -2364,6 +2349,7 @@
       const inkWrap = document.getElementById('invisible-ink');
       if (!inkWrap) return;
 
+      inkWrap.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); inkWrap.classList.toggle('revealed'); } });
       // Mobile: toggle revealed class on tap
       inkWrap.addEventListener('touchstart', () => {
         inkWrap.classList.toggle('revealed');
@@ -2380,9 +2366,10 @@
        FEATURE: 3D DEPTH PARALLAX (Mouse + Gyroscope)
        ======================================================== */
     (function init3DDepth() {
+      if (reducedMotion) return;
       const TILT_MAX = 10; // max degrees of tilt
       const cards = document.querySelectorAll('.about-card, .project-card, .stat-card, .contact-card');
-      
+
       if (cards.length === 0) return;
 
       const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.matchMedia('(pointer: coarse)').matches;
@@ -2499,6 +2486,7 @@
        FEATURE 3: STAGGERED SCROLL REVEAL ANIMATIONS
        ======================================================== */
     (function initScrollReveal() {
+      if (reducedMotion) return;
       const sections = document.querySelectorAll('section, header.hero');
       sections.forEach(section => {
         const children = section.querySelectorAll(
@@ -2567,6 +2555,7 @@
        FEATURE 9: CURSOR COMET TRAIL (Desktop Only)
        ======================================================== */
     (function initCursorTrail() {
+      if (reducedMotion) return;
       const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.matchMedia('(pointer: coarse)').matches;
       if (isTouch) return;
 
@@ -2653,6 +2642,7 @@
         { label: 'Scroll to Top', hint: 'top', action: () => { window.scrollTo({ top: 0, behavior: 'smooth' }); }},
       ];
 
+      let previousFocus = null;
       let selectedIndex = 0;
       let currentFiltered = commands;
 
@@ -2683,6 +2673,7 @@
       }
 
       function openPalette() {
+        previousFocus = document.activeElement;
         palette.classList.add('active');
         input.value = '';
         selectedIndex = 0;
@@ -2693,6 +2684,7 @@
       function closePalette() {
         palette.classList.remove('active');
         input.value = '';
+        previousFocus?.focus();
       }
 
       document.addEventListener('keydown', (e) => {
@@ -2730,6 +2722,11 @@
         }
       });
 
+      document.querySelector('.command-trigger').addEventListener('click', openPalette);
+      palette.querySelector('.cmd-close').addEventListener('click', closePalette);
+      palette.addEventListener('keydown', (e) => {
+        if(e.key === 'Tab') { e.preventDefault(); (document.activeElement === input ? palette.querySelector('.cmd-close') : input).focus(); }
+      });
       input.addEventListener('input', () => {
         selectedIndex = 0;
         render(input.value.toLowerCase());
@@ -2744,6 +2741,7 @@
        FEATURE 18: TERMINAL AUTO-TYPE ON FIRST VIEW
        ======================================================== */
     (function initTerminalAutoType() {
+      if (reducedMotion) return;
       const termBody = document.getElementById('terminal-body');
       if (!termBody) return;
 
@@ -2861,50 +2859,13 @@
       });
     })();
 
-  </script>
-  <!--
-    you made it to the bottom of the source.
-    respect.
-    
-    "the gap between an idea and a working system
-     is where i live." — AW
-    
-    hint: /nowhere
-    × end of transmission ×
-  -->
-  <!--
-    you made it to the bottom of the source.
-    respect.
-    
-    "the gap between an idea and a working system
-     is where i live." — AW
-    
-    hint: /nowhere
-    × end of transmission ×
-  -->
 
-  <!-- Feature 8: Keyboard Navigation Overlay -->
-  <div id="keyboard-overlay">
-    <div class="kb-card">
-      <div class="kb-title">Keyboard Navigation</div>
-      <div class="kb-row"><span class="kb-key">T</span><span class="kb-action">Terminal</span></div>
-      <div class="kb-row"><span class="kb-key">P</span><span class="kb-action">Projects</span></div>
-      <div class="kb-row"><span class="kb-key">C</span><span class="kb-action">Contact</span></div>
-      <div class="kb-row"><span class="kb-key">Ctrl+K</span><span class="kb-action">Command Palette</span></div>
-      <div class="kb-row"><span class="kb-key">ESC</span><span class="kb-action">Close</span></div>
-      <div class="kb-row"><span class="kb-key">↑↑↓↓←→←→BA</span><span class="kb-action kb-mystery">???</span></div>
-    </div>
-  </div>
-
-  <!-- Feature 17: Command Palette -->
-  <div id="command-palette">
-    <div class="cmd-card">
-      <div class="cmd-input-wrap">
-        <span class="cmd-icon">></span>
-        <input class="cmd-input" type="text" placeholder="Type a command..." autocomplete="off" spellcheck="false">
-      </div>
-      <div class="cmd-results" id="cmd-results"></div>
-    </div>
-  </div>
+    const menuToggle = document.querySelector(".menu-toggle");
+    const siteNav = document.getElementById("site-nav");
+    function closeMenu() { siteNav.classList.remove("is-open"); menuToggle.setAttribute("aria-expanded", "false"); menuToggle.textContent="Menu +"; }
+    menuToggle.addEventListener("click", () => { const open=siteNav.classList.toggle("is-open"); menuToggle.setAttribute("aria-expanded", String(open)); menuToggle.textContent=open ? "Close −" : "Menu +"; });
+    siteNav.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
+    document.addEventListener("keydown", e => { if(e.key === "Escape") closeMenu(); });
+</script>
 </body>
 </html>
